@@ -15,13 +15,13 @@
 		040EF5681E8552B600A0E1FE /* settings_icon_cover_size.png in Resources */ = {isa = PBXBuildFile; fileRef = 040EF5661E8552B600A0E1FE /* settings_icon_cover_size.png */; };
 		040EF5691E8552B600A0E1FE /* settings_icon_cover_size@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 040EF5671E8552B600A0E1FE /* settings_icon_cover_size@2x.png */; };
 		040EF56B1E8555CE00A0E1FE /* LiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040EF56A1E8555CE00A0E1FE /* LiveViewController.swift */; };
+		040EF57C1E85686100A0E1FE /* DTIActivityIndicator.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 040EF5741E85682000A0E1FE /* DTIActivityIndicator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		042243601E6FD92C0077BD93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422435F1E6FD92C0077BD93 /* AppDelegate.swift */; };
 		042243671E6FD92C0077BD93 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042243661E6FD92C0077BD93 /* Assets.xcassets */; };
 		0422436A1E6FD92C0077BD93 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 042243681E6FD92C0077BD93 /* LaunchScreen.storyboard */; };
 		042243751E6FD92C0077BD93 /* ZWATests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042243741E6FD92C0077BD93 /* ZWATests.swift */; };
 		042243801E6FD92C0077BD93 /* ZWAUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422437F1E6FD92C0077BD93 /* ZWAUITests.swift */; };
 		0425CCEC1E84FBF200ADF4D6 /* SigninViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0425CCEB1E84FBF200ADF4D6 /* SigninViewController.swift */; };
-		0425CD101E85162400ADF4D6 /* DTIActivityIndicator.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 0425CD0A1E8515AE00ADF4D6 /* DTIActivityIndicator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0445D3531E79147400546885 /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445D3521E79147400546885 /* ChartViewController.swift */; };
 		0457545C1E824DC300E68F2E /* launch.png in Resources */ = {isa = PBXBuildFile; fileRef = 0457545B1E824DC300E68F2E /* launch.png */; };
 		0457545E1E824F1300E68F2E /* ServerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457545D1E824F1300E68F2E /* ServerListViewController.swift */; };
@@ -41,6 +41,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		040EF5731E85682000A0E1FE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 040EF56E1E85681F00A0E1FE /* DTIActivityIndicator.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25FC0C741A04318500F61053;
+			remoteInfo = DTIActivityIndicator;
+		};
+		040EF5751E85682000A0E1FE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 040EF56E1E85681F00A0E1FE /* DTIActivityIndicator.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25FC0C7F1A04318500F61053;
+			remoteInfo = DTIActivityIndicatorTests;
+		};
+		040EF5781E85685800A0E1FE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 040EF56E1E85681F00A0E1FE /* DTIActivityIndicator.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 25FC0C731A04318500F61053;
+			remoteInfo = DTIActivityIndicator;
+		};
 		042243711E6FD92C0077BD93 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 042243541E6FD92C0077BD93 /* Project object */;
@@ -55,27 +76,6 @@
 			remoteGlobalIDString = 0422435B1E6FD92C0077BD93;
 			remoteInfo = ZWA;
 		};
-		0425CD091E8515AE00ADF4D6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0425CD041E8515AE00ADF4D6 /* DTIActivityIndicator.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 25FC0C741A04318500F61053;
-			remoteInfo = DTIActivityIndicator;
-		};
-		0425CD0B1E8515AE00ADF4D6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0425CD041E8515AE00ADF4D6 /* DTIActivityIndicator.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 25FC0C7F1A04318500F61053;
-			remoteInfo = DTIActivityIndicatorTests;
-		};
-		0425CD0E1E85161300ADF4D6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0425CD041E8515AE00ADF4D6 /* DTIActivityIndicator.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 25FC0C731A04318500F61053;
-			remoteInfo = DTIActivityIndicator;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -85,7 +85,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0425CD101E85162400ADF4D6 /* DTIActivityIndicator.framework in Copy Frameworks */,
+				040EF57C1E85686100A0E1FE /* DTIActivityIndicator.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -103,6 +103,7 @@
 		040EF5661E8552B600A0E1FE /* settings_icon_cover_size.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_icon_cover_size.png; sourceTree = "<group>"; };
 		040EF5671E8552B600A0E1FE /* settings_icon_cover_size@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_icon_cover_size@2x.png"; sourceTree = "<group>"; };
 		040EF56A1E8555CE00A0E1FE /* LiveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveViewController.swift; sourceTree = "<group>"; };
+		040EF56E1E85681F00A0E1FE /* DTIActivityIndicator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTIActivityIndicator.xcodeproj; path = "DTIActivityIndicatorView-Swift-master/DTIActivityIndicator.xcodeproj"; sourceTree = "<group>"; };
 		0422435C1E6FD92C0077BD93 /* ZWA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZWA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0422435F1E6FD92C0077BD93 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		042243661E6FD92C0077BD93 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -116,7 +117,6 @@
 		042243811E6FD92C0077BD93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0425CCE91E84F53100ADF4D6 /* DTIActivityIndicator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DTIActivityIndicator.framework; path = "DTIActivityIndicatorView-Swift-master/build/Debug-iphoneos/DTIActivityIndicator.framework"; sourceTree = "<group>"; };
 		0425CCEB1E84FBF200ADF4D6 /* SigninViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SigninViewController.swift; sourceTree = "<group>"; };
-		0425CD041E8515AE00ADF4D6 /* DTIActivityIndicator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTIActivityIndicator.xcodeproj; path = "DTIActivityIndicatorView-Swift/DTIActivityIndicator.xcodeproj"; sourceTree = "<group>"; };
 		0445D3521E79147400546885 /* ChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
 		044D19791E70E6F400CD5C45 /* ZWA-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZWA-Bridging-Header.h"; sourceTree = "<group>"; };
 		0457545B1E824DC300E68F2E /* launch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch.png; sourceTree = "<group>"; };
@@ -162,10 +162,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		040EF56F1E85681F00A0E1FE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				040EF5741E85682000A0E1FE /* DTIActivityIndicator.framework */,
+				040EF5761E85682000A0E1FE /* DTIActivityIndicatorTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		042243531E6FD92C0077BD93 = {
 			isa = PBXGroup;
 			children = (
-				0425CD041E8515AE00ADF4D6 /* DTIActivityIndicator.xcodeproj */,
+				040EF56E1E85681F00A0E1FE /* DTIActivityIndicator.xcodeproj */,
 				046CF6CD1E811EFF004F6284 /* Resources */,
 				0422435E1E6FD92C0077BD93 /* ZWA */,
 				042243731E6FD92C0077BD93 /* ZWATests */,
@@ -222,15 +231,6 @@
 				042243811E6FD92C0077BD93 /* Info.plist */,
 			);
 			path = ZWAUITests;
-			sourceTree = "<group>";
-		};
-		0425CD051E8515AE00ADF4D6 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				0425CD0A1E8515AE00ADF4D6 /* DTIActivityIndicator.framework */,
-				0425CD0C1E8515AE00ADF4D6 /* DTIActivityIndicatorTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		045DDE5E1E729001009F7B9E /* SignUp */ = {
@@ -308,7 +308,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				0425CD0F1E85161300ADF4D6 /* PBXTargetDependency */,
+				040EF5791E85685800A0E1FE /* PBXTargetDependency */,
 			);
 			name = ZWA;
 			productName = ZWA;
@@ -394,8 +394,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 0425CD051E8515AE00ADF4D6 /* Products */;
-					ProjectRef = 0425CD041E8515AE00ADF4D6 /* DTIActivityIndicator.xcodeproj */;
+					ProductGroup = 040EF56F1E85681F00A0E1FE /* Products */;
+					ProjectRef = 040EF56E1E85681F00A0E1FE /* DTIActivityIndicator.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -408,18 +408,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		0425CD0A1E8515AE00ADF4D6 /* DTIActivityIndicator.framework */ = {
+		040EF5741E85682000A0E1FE /* DTIActivityIndicator.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = DTIActivityIndicator.framework;
-			remoteRef = 0425CD091E8515AE00ADF4D6 /* PBXContainerItemProxy */;
+			remoteRef = 040EF5731E85682000A0E1FE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		0425CD0C1E8515AE00ADF4D6 /* DTIActivityIndicatorTests.xctest */ = {
+		040EF5761E85682000A0E1FE /* DTIActivityIndicatorTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = DTIActivityIndicatorTests.xctest;
-			remoteRef = 0425CD0B1E8515AE00ADF4D6 /* PBXContainerItemProxy */;
+			remoteRef = 040EF5751E85682000A0E1FE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -550,6 +550,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		040EF5791E85685800A0E1FE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DTIActivityIndicator;
+			targetProxy = 040EF5781E85685800A0E1FE /* PBXContainerItemProxy */;
+		};
 		042243721E6FD92C0077BD93 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0422435B1E6FD92C0077BD93 /* ZWA */;
@@ -559,11 +564,6 @@
 			isa = PBXTargetDependency;
 			target = 0422435B1E6FD92C0077BD93 /* ZWA */;
 			targetProxy = 0422437C1E6FD92C0077BD93 /* PBXContainerItemProxy */;
-		};
-		0425CD0F1E85161300ADF4D6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = DTIActivityIndicator;
-			targetProxy = 0425CD0E1E85161300ADF4D6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
