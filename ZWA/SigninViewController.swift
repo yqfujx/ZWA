@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DTIActivityIndicator
 
 
 class SigninViewController: UIViewController, UITextFieldDelegate {
@@ -16,6 +17,7 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var accountTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var signinButton: UIButton!
+    var activityIndicator: MyActivityIndicatorView?
     
     @IBAction func testBaidu(_ sender: Any) {
         let p = {(p: Progress) -> Void in
@@ -87,21 +89,39 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
      点击登录按钮
      */
     @IBAction func signinButtonClicked(_ sender: UIButton) {
-        sender.isEnabled = false
-        self.navigationItem.hidesBackButton = true
+//        sender.isEnabled = false
+//        self.navigationItem.hidesBackButton = true
+        
+        let activityIndicator = DTIActivityIndicatorView(frame: CGRect(x: 0.0, y: 0.0, width: 80.0, height: 80.0))
+        activityIndicator.indicatorColor = UIColor.white
+        activityIndicator.indicatorStyle =  "spotify"
+        activityIndicator.startActivity()
+        self.activityIndicator = MyActivityIndicatorView(embedIndicator: activityIndicator)
+        self.activityIndicator?.show()
         
         signin(withUserID: self.accountTextField.text!, password: self.passwordTextField.text!) {
-            [weak self, weak sender](success: Bool) in
+            [unowned self](success: Bool) in
             
             if success {
-                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyBoard.instantiateInitialViewController()
-                let segue = UIStoryboardSegue(identifier: "signinToMain", source: self!, destination: vc!)
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyboard.instantiateInitialViewController()
+                
+                let segue = UIStoryboardSegue(identifier: nil, source: self, destination: vc!, performHandler: {
+                    vc!.modalTransitionStyle = .crossDissolve
+                    let delegate = UIApplication.shared.delegate as! AppDelegate
+                    
+                    let animation = CATransition()
+                    animation.type = kCATransitionFade
+                    delegate.window!.layer.add(animation, forKey: nil)
+                    delegate.window!.rootViewController = vc!
+                })
+                
                 segue.perform()
             }
             else {
-                sender?.isEnabled = true
-                self?.navigationItem.hidesBackButton = false
+//                sender?.isEnabled = true
+//                self.navigationItem.hidesBackButton = false
+                self.activityIndicator?.dismiss()
             }
         }
     }
@@ -118,6 +138,7 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
         if let l1 = self.accountTextField.text?.characters.count, let l2 = self.passwordTextField.text?.characters.count{
             self.signinButton.isEnabled =  (l1 > 0 &&  l2 > 0)
         }
+        
     }
 
     override func didReceiveMemoryWarning() {

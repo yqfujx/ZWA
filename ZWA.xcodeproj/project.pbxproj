@@ -7,18 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		040EF54D1E85306300A0E1FE /* MyActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040EF54C1E85306300A0E1FE /* MyActivityIndicatorView.swift */; };
+		040EF55C1E85504200A0E1FE /* tab_icon_settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 040EF55A1E85504200A0E1FE /* tab_icon_settings.png */; };
+		040EF55D1E85504200A0E1FE /* tab_icon_settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 040EF55B1E85504200A0E1FE /* tab_icon_settings@2x.png */; };
+		040EF5641E85515000A0E1FE /* shared_toolbar_btn_list.png in Resources */ = {isa = PBXBuildFile; fileRef = 040EF5601E85515000A0E1FE /* shared_toolbar_btn_list.png */; };
+		040EF5651E85515000A0E1FE /* shared_toolbar_btn_list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 040EF5611E85515000A0E1FE /* shared_toolbar_btn_list@2x.png */; };
+		040EF5681E8552B600A0E1FE /* settings_icon_cover_size.png in Resources */ = {isa = PBXBuildFile; fileRef = 040EF5661E8552B600A0E1FE /* settings_icon_cover_size.png */; };
+		040EF5691E8552B600A0E1FE /* settings_icon_cover_size@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 040EF5671E8552B600A0E1FE /* settings_icon_cover_size@2x.png */; };
+		040EF56B1E8555CE00A0E1FE /* LiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040EF56A1E8555CE00A0E1FE /* LiveViewController.swift */; };
 		042243601E6FD92C0077BD93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422435F1E6FD92C0077BD93 /* AppDelegate.swift */; };
-		042243621E6FD92C0077BD93 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042243611E6FD92C0077BD93 /* ViewController.swift */; };
-		042243651E6FD92C0077BD93 /* Test.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 042243631E6FD92C0077BD93 /* Test.storyboard */; };
 		042243671E6FD92C0077BD93 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042243661E6FD92C0077BD93 /* Assets.xcassets */; };
 		0422436A1E6FD92C0077BD93 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 042243681E6FD92C0077BD93 /* LaunchScreen.storyboard */; };
 		042243751E6FD92C0077BD93 /* ZWATests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042243741E6FD92C0077BD93 /* ZWATests.swift */; };
 		042243801E6FD92C0077BD93 /* ZWAUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422437F1E6FD92C0077BD93 /* ZWAUITests.swift */; };
-		042243921E6FE2D60077BD93 /* WebServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042243911E6FE2D60077BD93 /* WebServicesViewController.swift */; };
-		0425CCE81E84EEDA00ADF4D6 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0425CCE71E84EEDA00ADF4D6 /* ActivityIndicator.swift */; };
 		0425CCEC1E84FBF200ADF4D6 /* SigninViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0425CCEB1E84FBF200ADF4D6 /* SigninViewController.swift */; };
+		0425CD101E85162400ADF4D6 /* DTIActivityIndicator.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 0425CD0A1E8515AE00ADF4D6 /* DTIActivityIndicator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0445D3531E79147400546885 /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445D3521E79147400546885 /* ChartViewController.swift */; };
-		044D19781E70DC8200CD5C45 /* ServerResponseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044D19771E70DC8200CD5C45 /* ServerResponseViewController.swift */; };
 		0457545C1E824DC300E68F2E /* launch.png in Resources */ = {isa = PBXBuildFile; fileRef = 0457545B1E824DC300E68F2E /* launch.png */; };
 		0457545E1E824F1300E68F2E /* ServerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457545D1E824F1300E68F2E /* ServerListViewController.swift */; };
 		045754611E826B8C00E68F2E /* login_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 0457545F1E826B8C00E68F2E /* login_btn.png */; };
@@ -51,15 +55,56 @@
 			remoteGlobalIDString = 0422435B1E6FD92C0077BD93;
 			remoteInfo = ZWA;
 		};
+		0425CD091E8515AE00ADF4D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0425CD041E8515AE00ADF4D6 /* DTIActivityIndicator.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25FC0C741A04318500F61053;
+			remoteInfo = DTIActivityIndicator;
+		};
+		0425CD0B1E8515AE00ADF4D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0425CD041E8515AE00ADF4D6 /* DTIActivityIndicator.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25FC0C7F1A04318500F61053;
+			remoteInfo = DTIActivityIndicatorTests;
+		};
+		0425CD0E1E85161300ADF4D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0425CD041E8515AE00ADF4D6 /* DTIActivityIndicator.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 25FC0C731A04318500F61053;
+			remoteInfo = DTIActivityIndicator;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0425CD011E8507E000ADF4D6 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0425CD101E85162400ADF4D6 /* DTIActivityIndicator.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		01FE7DE84EA945B57E5E373A /* libPods-ZWA.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZWA.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0292281AEC4B1A4A82787F10 /* Pods-ZWA.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZWA.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZWA/Pods-ZWA.release.xcconfig"; sourceTree = "<group>"; };
+		040EF54C1E85306300A0E1FE /* MyActivityIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyActivityIndicatorView.swift; sourceTree = "<group>"; };
+		040EF55A1E85504200A0E1FE /* tab_icon_settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab_icon_settings.png; sourceTree = "<group>"; };
+		040EF55B1E85504200A0E1FE /* tab_icon_settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_icon_settings@2x.png"; sourceTree = "<group>"; };
+		040EF5601E85515000A0E1FE /* shared_toolbar_btn_list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shared_toolbar_btn_list.png; sourceTree = "<group>"; };
+		040EF5611E85515000A0E1FE /* shared_toolbar_btn_list@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shared_toolbar_btn_list@2x.png"; sourceTree = "<group>"; };
+		040EF5661E8552B600A0E1FE /* settings_icon_cover_size.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_icon_cover_size.png; sourceTree = "<group>"; };
+		040EF5671E8552B600A0E1FE /* settings_icon_cover_size@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_icon_cover_size@2x.png"; sourceTree = "<group>"; };
+		040EF56A1E8555CE00A0E1FE /* LiveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveViewController.swift; sourceTree = "<group>"; };
 		0422435C1E6FD92C0077BD93 /* ZWA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZWA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0422435F1E6FD92C0077BD93 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		042243611E6FD92C0077BD93 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		042243641E6FD92C0077BD93 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Test.storyboard; sourceTree = "<group>"; };
 		042243661E6FD92C0077BD93 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		042243691E6FD92C0077BD93 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0422436B1E6FD92C0077BD93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -69,12 +114,10 @@
 		0422437B1E6FD92C0077BD93 /* ZWAUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZWAUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0422437F1E6FD92C0077BD93 /* ZWAUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZWAUITests.swift; sourceTree = "<group>"; };
 		042243811E6FD92C0077BD93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		042243911E6FE2D60077BD93 /* WebServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebServicesViewController.swift; sourceTree = "<group>"; };
-		0425CCE71E84EEDA00ADF4D6 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		0425CCE91E84F53100ADF4D6 /* DTIActivityIndicator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DTIActivityIndicator.framework; path = "DTIActivityIndicatorView-Swift-master/build/Debug-iphoneos/DTIActivityIndicator.framework"; sourceTree = "<group>"; };
 		0425CCEB1E84FBF200ADF4D6 /* SigninViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SigninViewController.swift; sourceTree = "<group>"; };
+		0425CD041E8515AE00ADF4D6 /* DTIActivityIndicator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTIActivityIndicator.xcodeproj; path = "DTIActivityIndicatorView-Swift/DTIActivityIndicator.xcodeproj"; sourceTree = "<group>"; };
 		0445D3521E79147400546885 /* ChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
-		044D19771E70DC8200CD5C45 /* ServerResponseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerResponseViewController.swift; sourceTree = "<group>"; };
 		044D19791E70E6F400CD5C45 /* ZWA-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZWA-Bridging-Header.h"; sourceTree = "<group>"; };
 		0457545B1E824DC300E68F2E /* launch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch.png; sourceTree = "<group>"; };
 		0457545D1E824F1300E68F2E /* ServerListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerListViewController.swift; sourceTree = "<group>"; };
@@ -122,6 +165,7 @@
 		042243531E6FD92C0077BD93 = {
 			isa = PBXGroup;
 			children = (
+				0425CD041E8515AE00ADF4D6 /* DTIActivityIndicator.xcodeproj */,
 				046CF6CD1E811EFF004F6284 /* Resources */,
 				0422435E1E6FD92C0077BD93 /* ZWA */,
 				042243731E6FD92C0077BD93 /* ZWATests */,
@@ -145,14 +189,9 @@
 		0422435E1E6FD92C0077BD93 /* ZWA */ = {
 			isa = PBXGroup;
 			children = (
-				0425CCE71E84EEDA00ADF4D6 /* ActivityIndicator.swift */,
-				0487BB371E7FAA42007786BA /* Workflow */,
+				0487BB371E7FAA42007786BA /* Dashboard */,
 				045DDE5E1E729001009F7B9E /* SignUp */,
 				0422435F1E6FD92C0077BD93 /* AppDelegate.swift */,
-				042243611E6FD92C0077BD93 /* ViewController.swift */,
-				042243631E6FD92C0077BD93 /* Test.storyboard */,
-				042243911E6FE2D60077BD93 /* WebServicesViewController.swift */,
-				044D19771E70DC8200CD5C45 /* ServerResponseViewController.swift */,
 				042243661E6FD92C0077BD93 /* Assets.xcassets */,
 				042243681E6FD92C0077BD93 /* LaunchScreen.storyboard */,
 				0422436B1E6FD92C0077BD93 /* Info.plist */,
@@ -162,6 +201,7 @@
 				046CF6C51E80D501004F6284 /* AppConfiguration.swift */,
 				046CF6CB1E811D6C004F6284 /* Launch.storyboard */,
 				04776E2D1E839D7E00655EAF /* HTTPSession.swift */,
+				040EF54C1E85306300A0E1FE /* MyActivityIndicatorView.swift */,
 			);
 			path = ZWA;
 			sourceTree = "<group>";
@@ -184,6 +224,15 @@
 			path = ZWAUITests;
 			sourceTree = "<group>";
 		};
+		0425CD051E8515AE00ADF4D6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0425CD0A1E8515AE00ADF4D6 /* DTIActivityIndicator.framework */,
+				0425CD0C1E8515AE00ADF4D6 /* DTIActivityIndicatorTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		045DDE5E1E729001009F7B9E /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
@@ -197,6 +246,12 @@
 		046CF6CD1E811EFF004F6284 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				040EF5661E8552B600A0E1FE /* settings_icon_cover_size.png */,
+				040EF5671E8552B600A0E1FE /* settings_icon_cover_size@2x.png */,
+				040EF5601E85515000A0E1FE /* shared_toolbar_btn_list.png */,
+				040EF5611E85515000A0E1FE /* shared_toolbar_btn_list@2x.png */,
+				040EF55A1E85504200A0E1FE /* tab_icon_settings.png */,
+				040EF55B1E85504200A0E1FE /* tab_icon_settings@2x.png */,
 				045754671E827AF900E68F2E /* account.png */,
 				045754681E827AF900E68F2E /* account@2x.png */,
 				045754691E827AF900E68F2E /* lock.png */,
@@ -208,12 +263,13 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		0487BB371E7FAA42007786BA /* Workflow */ = {
+		0487BB371E7FAA42007786BA /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
 				0487BB381E7FAB21007786BA /* Main.storyboard */,
+				040EF56A1E8555CE00A0E1FE /* LiveViewController.swift */,
 			);
-			name = Workflow;
+			name = Dashboard;
 			sourceTree = "<group>";
 		};
 		5D0BABB7A442B3D3A99CC7B4 /* Frameworks */ = {
@@ -247,10 +303,12 @@
 				0422435A1E6FD92C0077BD93 /* Resources */,
 				2E34E1CEC290081B433A37ED /* [CP] Embed Pods Frameworks */,
 				B9ECCC5075838EF3969E98D6 /* [CP] Copy Pods Resources */,
+				0425CD011E8507E000ADF4D6 /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				0425CD0F1E85161300ADF4D6 /* PBXTargetDependency */,
 			);
 			name = ZWA;
 			productName = ZWA;
@@ -334,6 +392,12 @@
 			mainGroup = 042243531E6FD92C0077BD93;
 			productRefGroup = 0422435D1E6FD92C0077BD93 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 0425CD051E8515AE00ADF4D6 /* Products */;
+					ProjectRef = 0425CD041E8515AE00ADF4D6 /* DTIActivityIndicator.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				0422435B1E6FD92C0077BD93 /* ZWA */,
@@ -342,6 +406,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		0425CD0A1E8515AE00ADF4D6 /* DTIActivityIndicator.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = DTIActivityIndicator.framework;
+			remoteRef = 0425CD091E8515AE00ADF4D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0425CD0C1E8515AE00ADF4D6 /* DTIActivityIndicatorTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DTIActivityIndicatorTests.xctest;
+			remoteRef = 0425CD0B1E8515AE00ADF4D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		0422435A1E6FD92C0077BD93 /* Resources */ = {
@@ -352,15 +433,20 @@
 				0457546E1E827AF900E68F2E /* lock@2x.png in Resources */,
 				0457546B1E827AF900E68F2E /* account.png in Resources */,
 				0459DE811E763F4200C2EDB2 /* Signin.storyboard in Resources */,
+				040EF5681E8552B600A0E1FE /* settings_icon_cover_size.png in Resources */,
 				0422436A1E6FD92C0077BD93 /* LaunchScreen.storyboard in Resources */,
 				042243671E6FD92C0077BD93 /* Assets.xcassets in Resources */,
 				045754611E826B8C00E68F2E /* login_btn.png in Resources */,
+				040EF5641E85515000A0E1FE /* shared_toolbar_btn_list.png in Resources */,
 				0487BB391E7FAB21007786BA /* Main.storyboard in Resources */,
 				045754621E826B8C00E68F2E /* login_btn@2x.png in Resources */,
 				0457546D1E827AF900E68F2E /* lock.png in Resources */,
-				042243651E6FD92C0077BD93 /* Test.storyboard in Resources */,
+				040EF55D1E85504200A0E1FE /* tab_icon_settings@2x.png in Resources */,
 				046CF6CC1E811D6C004F6284 /* Launch.storyboard in Resources */,
+				040EF5691E8552B600A0E1FE /* settings_icon_cover_size@2x.png in Resources */,
 				0457546C1E827AF900E68F2E /* account@2x.png in Resources */,
+				040EF55C1E85504200A0E1FE /* tab_icon_settings.png in Resources */,
+				040EF5651E85515000A0E1FE /* shared_toolbar_btn_list@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,16 +520,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				04776E2E1E839D7E00655EAF /* HTTPSession.swift in Sources */,
-				042243621E6FD92C0077BD93 /* ViewController.swift in Sources */,
 				0425CCEC1E84FBF200ADF4D6 /* SigninViewController.swift in Sources */,
 				0457545E1E824F1300E68F2E /* ServerListViewController.swift in Sources */,
+				040EF54D1E85306300A0E1FE /* MyActivityIndicatorView.swift in Sources */,
 				042243601E6FD92C0077BD93 /* AppDelegate.swift in Sources */,
 				0445D3531E79147400546885 /* ChartViewController.swift in Sources */,
 				046CF6C61E80D501004F6284 /* AppConfiguration.swift in Sources */,
-				0425CCE81E84EEDA00ADF4D6 /* ActivityIndicator.swift in Sources */,
-				042243921E6FE2D60077BD93 /* WebServicesViewController.swift in Sources */,
+				040EF56B1E8555CE00A0E1FE /* LiveViewController.swift in Sources */,
 				046CF6C41E80D0C1004F6284 /* LaunchViewController.swift in Sources */,
-				044D19781E70DC8200CD5C45 /* ServerResponseViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -476,17 +560,14 @@
 			target = 0422435B1E6FD92C0077BD93 /* ZWA */;
 			targetProxy = 0422437C1E6FD92C0077BD93 /* PBXContainerItemProxy */;
 		};
+		0425CD0F1E85161300ADF4D6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DTIActivityIndicator;
+			targetProxy = 0425CD0E1E85161300ADF4D6 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		042243631E6FD92C0077BD93 /* Test.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				042243641E6FD92C0077BD93 /* Base */,
-			);
-			name = Test.storyboard;
-			sourceTree = "<group>";
-		};
 		042243681E6FD92C0077BD93 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

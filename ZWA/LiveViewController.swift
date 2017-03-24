@@ -1,61 +1,15 @@
 //
-//  WebServicesViewController.swift
+//  LiveViewController.swift
 //  ZWA
 //
-//  Created by mac on 2017/3/8.
+//  Created by mac on 2017/3/24.
 //  Copyright © 2017年 zonjli. All rights reserved.
 //
 
 import UIKit
 
-class WebServicesViewController: UITableViewController {
-    
-//    var webServices: [WebService] = []
+class LiveViewController: UITableViewController {
 
-    
-    // MARK: initial webservices
-    func initWebServices() -> Void {
-        /*
-        var ws = WebService(host: "http://192.134.2.166:8080")
-        ws = "http://www.webservicex.net/globalweather.asmx/GetCitiesByCountry"
-         ws.params = ["CountryName": "china"]
-        self.webServices.append(ws)
-        
-        ws = WebService(urlString: "http://www.baidu.com/s", params: ["sl_lang":"en", "rsv_srlang": "en", "rsv_rq" :"en"])
-        self.webServices.append(ws)
-        
-        ws = WebService(urlString: "http://192.134.2.166:8080/Service1.asmx/AddMethod", params: ["A": 123, "B": 456])
-        self.webServices.append(ws)
-        
-        ws = WebService(urlString: "http://192.134.2.166:8080/Service1.asmx/EchoMessage", params: ["msg": "This content will return back from server."])
-        self.webServices.append(ws)
-        
-        ws = WebService(urlString: "http://192.134.2.166:8080/Service1.asmx/HelloWorld", params: nil)
-        self.webServices.append(ws)
-        
-        ws = WebService(urlString: "http://192.134.2.166:8080/Service1.asmx/HelloWorld1", params: nil)
-        self.webServices.append(ws)
-        
-        ws = WebService(urlString: "http://192.134.2.166:8080/Service1.asmx/OverWtNum", params: nil)
-        self.webServices.append(ws)
-        
-        ws = WebService(urlString: "http://192.134.2.166:8080/Service1.asmx/test", params: nil)
-        self.webServices.append(ws)
-        
-        ws = WebService(urlString: "http://192.134.2.166:8080/Service1.asmx/testdata", params: nil)
-        self.webServices.append(ws)
- */
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "selectWebServiceSegue" {
-            let vc = segue.destination as! ServerResponseViewController
-            let indexPath = self.tableView.indexPathForSelectedRow
-//            vc.webService = self.webServices[(indexPath?.row)!]
-            
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -64,7 +18,6 @@ class WebServicesViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        self.initWebServices()
     }
 
     override func didReceiveMemoryWarning() {
@@ -79,23 +32,21 @@ class WebServicesViewController: UITableViewController {
         return 0
     }
 
-    /*
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.webServices.count
+        return 0
     }
 
+    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
         // Configure the cell...
- //       let ws = self.webServices[indexPath.row]
-        
- //       cell.textLabel?.text = ws.urlString
 
         return cell
     }
- */
+    */
+
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
