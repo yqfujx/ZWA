@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="FAX-v2-1Nr">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Launch View Controller-->
+        <scene sceneID="mMQ-Op-dfw">
+            <objects>
+                <viewController id="FAX-v2-1Nr" customClass="LaunchViewController" customModule="ZWA" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="DBN-Ry-KUG"/>
+                        <viewControllerLayoutGuide type="bottom" id="Osr-aW-5yN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="D5a-Lt-cwV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch.png" translatesAutoresizingMaskIntoConstraints="NO" id="mxP-dd-33k">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="mxP-dd-33k" firstAttribute="centerY" secondItem="D5a-Lt-cwV" secondAttribute="centerY" id="Abs-79-azc"/>
+                            <constraint firstItem="mxP-dd-33k" firstAttribute="height" secondItem="D5a-Lt-cwV" secondAttribute="height" id="JTG-Me-uvr"/>
+                            <constraint firstItem="mxP-dd-33k" firstAttribute="width" secondItem="D5a-Lt-cwV" secondAttribute="width" id="aXv-Y7-jCK"/>
+                            <constraint firstItem="mxP-dd-33k" firstAttribute="centerX" secondItem="D5a-Lt-cwV" secondAttribute="centerX" id="gM5-3d-gaW"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pdC-2R-X8O" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-639.20000000000005" y="56.221889055472268"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="launch.png" width="515" height="464"/>
+    </resources>
+</document>
