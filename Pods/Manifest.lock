@@ -14,19 +14,24 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - FMDB (2.6.2):
+    - FMDB/standard (= 2.6.2)
+  - FMDB/standard (2.6.2)
   - PNChart (0.8.9):
     - UICountingLabel (~> 1.2.0)
   - UICountingLabel (1.2.0)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
+  - FMDB (~> 2.6.2)
   - PNChart (~> 0.8.9)
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   PNChart: 84774d225c2126ded6c93d4dbe6ae98c3a73c2d2
   UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
 
-PODFILE CHECKSUM: 0e96e1613a3f5dd984289c4fd18754033014a9d7
+PODFILE CHECKSUM: 191841b1808392825f549e97df0d0a73b54f03cf
 
 COCOAPODS: 1.2.0
