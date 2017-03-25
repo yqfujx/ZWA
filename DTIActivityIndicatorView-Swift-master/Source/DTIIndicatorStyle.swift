@@ -13,7 +13,7 @@ enum DTIIndicatorStyle: Int {
     
     static let defaultValue = DTIIndicatorStyle.chasingDots
     
-    static func conv(value: String) -> DTIIndicatorStyle {
+    static func conv(_ value: String) -> DTIIndicatorStyle {
         switch value {
         case "rotatingPane": return .rotatingPane
         case "doubleBounce": return .doubleBounce
@@ -27,7 +27,7 @@ enum DTIIndicatorStyle: Int {
         }
     }
     
-    static func convInv(value: DTIIndicatorStyle) -> String {
+    static func convInv(_ value: DTIIndicatorStyle) -> String {
         switch value {
         case .rotatingPane: return "rotatingPane"
         case .doubleBounce: return "doubleBounce"
@@ -54,7 +54,7 @@ extension DTIIndicatorStyle {
 /**
 * Allow to be constructed from string / assign string
 */
-extension DTIIndicatorStyle : StringLiteralConvertible {
+extension DTIIndicatorStyle : ExpressibleByStringLiteral {
     
     init(stringLiteral v : String) {
         self = DTIIndicatorStyle.conv(v)
@@ -68,11 +68,11 @@ extension DTIIndicatorStyle : StringLiteralConvertible {
         self = DTIIndicatorStyle.conv(v)
     }
     
-    static func convertFromStringLiteral(value: String) -> DTIIndicatorStyle {
+    static func convertFromStringLiteral(_ value: String) -> DTIIndicatorStyle {
         return conv(value)
     }
     
-    static func convertFromExtendedGraphemeClusterLiteral(value: String) -> DTIIndicatorStyle {
+    static func convertFromExtendedGraphemeClusterLiteral(_ value: String) -> DTIIndicatorStyle {
         return conv(value)
     }
 }

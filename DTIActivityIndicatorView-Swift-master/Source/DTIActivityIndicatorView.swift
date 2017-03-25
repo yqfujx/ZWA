@@ -11,21 +11,21 @@ import Foundation
 
 @IBDesignable
 @objc
-public class DTIActivityIndicatorView: UIView {
+open class DTIActivityIndicatorView: UIView {
     // warning unlike objc, we dont have TARGET_INTERFACE_BUILDER macro in swift !
     // this variable as the right value only after prepareForInterfaceBuilder()
     // is called
     // https://developer.apple.com/library/prerelease/ios/recipes/xcode_help-IB_objects_media/CreatingaLiveViewofaCustomObject.html
     // http://justabeech.com/2014/08/03/prepareforinterfacebuilder-and-property-observers/
-    private var runningWithinInterfaceBuilder: Bool = false
+    fileprivate var runningWithinInterfaceBuilder: Bool = false
     
     /** private properties */
-    private var activityStarted: Bool = false
+    fileprivate var activityStarted: Bool = false
     
-    private var currentAnimation: DTIAnimProtocol? = nil
+    fileprivate var currentAnimation: DTIAnimProtocol? = nil
     
     /** @IBInspectable properties */
-    @IBInspectable public var indicatorColor: UIColor = UIColor.whiteColor() {
+    @IBInspectable open var indicatorColor: UIColor = UIColor.white {
         didSet {
             if (self.currentAnimation != nil) {
                 self.currentAnimation!.needUpdateColor()
@@ -33,14 +33,14 @@ public class DTIActivityIndicatorView: UIView {
         }
     }
     
-    @IBInspectable public var indicatorStyle: String = DTIIndicatorStyle.convInv(.defaultValue)
+    @IBInspectable open var indicatorStyle: String = DTIIndicatorStyle.convInv(.defaultValue)
     
     /** ctor && ~ctor */
     override public init(frame: CGRect) {
         super.init(frame: frame);
     }
     
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -51,7 +51,7 @@ public class DTIActivityIndicatorView: UIView {
     }
     
     /** private members */
-    private func setUpAnimation() {
+    fileprivate func setUpAnimation() {
         let style = DTIIndicatorStyle.conv(self.indicatorStyle)
         
         switch style {
@@ -68,8 +68,8 @@ public class DTIActivityIndicatorView: UIView {
         self.setUpColors()
     }
     
-    private func setUpColors() {
-        self.backgroundColor = UIColor.clearColor()
+    fileprivate func setUpColors() {
+        self.backgroundColor = UIColor.clear
         
         if (self.currentAnimation != nil) {
             self.currentAnimation!.needUpdateColor()
@@ -77,40 +77,40 @@ public class DTIActivityIndicatorView: UIView {
     }
     
     /** overrides */
-    override public func prepareForInterfaceBuilder() {
+    override open func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
         self.runningWithinInterfaceBuilder = true
         
         setUpColors();
     }
     
-    override public func layoutSubviews() {
+    override open func layoutSubviews() {
         if (self.currentAnimation != nil) {
             currentAnimation!.needLayoutSubviews()
         }
     }
 
-    override public func drawRect(rect: CGRect) {
-        super.drawRect(rect)
+    override open func draw(_ rect: CGRect) {
+        super.draw(rect)
         
         if (self.runningWithinInterfaceBuilder) {
             let context = UIGraphicsGetCurrentContext()
-            CGContextSaveGState(context)
+            context?.saveGState()
             
-            var arrayOfDashLength: [CGFloat] = [2.0, 2.0]
-            CGContextSetStrokeColorWithColor(context, self.indicatorColor.CGColor)
-            var dash = { (phase: CGFloat, lengths: UnsafePointer<CGFloat>, count: Int) -> Void in
-                CGContextSetLineDash(context, phase, lengths, count)
+            let arrayOfDashLength: [CGFloat] = [2.0, 2.0]
+            context?.setStrokeColor(self.indicatorColor.cgColor)
+            let dash = { (phase: CGFloat, lengths: [CGFloat], count: Int) -> Void in
+                context?.setLineDash(phase: phase, lengths: lengths)
             }
             dash(0.0, arrayOfDashLength, arrayOfDashLength.count)
             
-            CGContextStrokeRect(context, self.bounds)
+            context?.stroke(self.bounds)
             
-            CGContextRestoreGState(context)
+            context?.restoreGState()
         }
     }
     
-    override public func sizeThatFits(size: CGSize) -> CGSize {
+    override open func sizeThatFits(_ size: CGSize) -> CGSize {
         if (size.width < 20.0) {
             return CGSize(width: 20.0, height: 20.0)
         }
@@ -119,7 +119,7 @@ public class DTIActivityIndicatorView: UIView {
     }
     
     /** public members */
-    public func startActivity() {
+    open func startActivity() {
         if (self.activityStarted) {
             return
         }
@@ -132,7 +132,7 @@ public class DTIActivityIndicatorView: UIView {
         currentAnimation!.startActivity()
     }
 
-    public func stopActivity(animated: Bool) {
+    open func stopActivity(_ animated: Bool) {
         if (!self.activityStarted) {
             return
         }
@@ -141,7 +141,7 @@ public class DTIActivityIndicatorView: UIView {
         currentAnimation!.stopActivity(animated)
     }
 
-    public func stopActivity() {
+    open func stopActivity() {
         self.stopActivity(true)
     }
     
