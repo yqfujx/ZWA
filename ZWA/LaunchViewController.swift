@@ -25,14 +25,13 @@ class LaunchViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
         // 启动画面 3 秒后进入功能界面
         // 手动切换场景
         let deadlineTime = DispatchTime.now() + .seconds(3)
         DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
             var storyboard: UIStoryboard?
             
-            if  AppConfiguration.configuration.defaultSession.didSignin {
+            if  HTTPSession.session.didSignin {
                 storyboard = UIStoryboard(name: "Main", bundle: nil)
             }
             else {

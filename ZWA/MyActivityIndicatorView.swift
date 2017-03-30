@@ -33,6 +33,7 @@ class MyActivityIndicatorView: UIView {
         embedIndicator.center = CGPoint(x: rect.size.width / 2.0, y: rect.size.height / 2.0)
         self.addSubview(embedIndicator)
         self.embedIndicator = embedIndicator
+        embedIndicator.indicatorStyle = "spotify"
     }
     
     convenience init() {

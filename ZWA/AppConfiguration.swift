@@ -11,25 +11,45 @@ import UIKit
 
 class AppConfiguration: NSObject {
 
-    let SERVER_LIST_FILE_NAME = "serverlist.plist"
-    let defaultSession = HTTPSession.localSession()
+    let SLURL = "http://192.134.2.166:8080/Service1.asmx/AreaUrlJsStr"
+    static let kServerName = "serverName"
+    static let kServerAddress = "serverAddress"
+    static let kUserID = "userID"
+    static let kPassword = "password"
+    static let kDidSignin = "didSignin"
     
-    
-    private var _servers:[ServerStruct]!
-    var servers: [ServerStruct] {
-        get {
-            if _servers == nil {
-                _servers = localServerList()
-            }
-            return _servers
-        }
-        set {
-            _servers = newValue
-            saveServerList(array: newValue)
-        }
-    }
+    var serverName: String?
+    var serverAddress: String?
+    var userID: String?
+    var password: String?
+    var phone: String?
+    var locationCode: String?
+    var didSign: Bool = false
     
     private override init () {
+        let defaults = UserDefaults.standard
+        
+        serverName = defaults.value(forKey: AppConfiguration.kServerName) as? String
+        serverAddress = defaults.value(forKey: AppConfiguration.kServerAddress) as? String
+        userID = defaults.value(forKey: AppConfiguration.kUserID) as? String
+        password = defaults.value(forKey: AppConfiguration.kPassword) as? String
+        if let boolValue = defaults.value(forKey: AppConfiguration.kDidSignin) as? Bool {
+            didSign = boolValue
+        }
+        
+        super.init()
+    }
+    
+    func save() -> Void {
+        let defaults = UserDefaults.standard
+        
+        defaults.set(self.serverName ?? "", forKey: AppConfiguration.kServerName)
+        defaults.set(self.serverAddress ?? "", forKey: AppConfiguration.kServerAddress)
+        defaults.set(self.userID ?? "", forKey: AppConfiguration.kUserID)
+        defaults.set(self.password ?? "", forKey: AppConfiguration.kPassword)
+        defaults.set(self.didSign, forKey: AppConfiguration.kDidSignin)
+        
+        defaults.synchronize()
     }
     
     /**
@@ -37,29 +57,4 @@ class AppConfiguration: NSObject {
      */
     static let configuration = AppConfiguration()
 
-    /**
-     加载本地服务器列表
-     */
-    func localServerList() -> [ServerStruct] {
-        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        let documentsDirectory = paths[0] as NSString
-        let filePath = documentsDirectory.appendingPathComponent(SERVER_LIST_FILE_NAME)
-        
-        if let list = NSArray(contentsOfFile: filePath) {
-            return Array(list) as! [ServerStruct]
-        }
-
-        return []
-    }
-    
-    /**
-     保存服务器列表
-     */
-    private func saveServerList(array: [ServerStruct])  {
-        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        let documentsDirectory = paths[0] as NSString
-        let filePath = documentsDirectory.appendingPathComponent(SERVER_LIST_FILE_NAME)
-        (array as NSArray).write(toFile:  filePath, atomically: true)
-    }
-    
 }

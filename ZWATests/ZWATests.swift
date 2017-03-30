@@ -7,7 +7,6 @@
 //
 
 import XCTest
-@testable import ZWA
 
 class ZWATests: XCTestCase {
     

@@ -48,21 +48,74 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
             print(error.localizedDescription)
         }
         
-        let session = AppConfiguration.configuration.defaultSession
+        let session = HTTPSession.session
         let request: Request = .Baidu
         session.post(request: request, progress: p, success: s, failure: f)
     }
 
     // MARK: - 功能函数
+    
+    /** 登录
+     */
     func signin(withUserID userID: String, password: String, completion: @escaping (Bool) -> Void) -> Void {
         
-        let request: Request = .Signin(["user_id": userID, "password": password])
-        let session = AppConfiguration.configuration.defaultSession
+        let request: Request = .Signin(userID, password)
+        let session = HTTPSession.session
         
-        let success = {[unowned session] (task: URLSessionDataTask, data: Any?) ->Void in
-            session.signin(account: Account(userID: userID, password: password)!)
-            session.isOnline = true
-            completion(true)
+        let success = { (task: URLSessionDataTask, data: Data?) ->Void in
+            var signed = false
+            
+            repeat {
+                guard data != nil else {
+                    break
+                }
+                
+                do {
+                    // 必须是形如{"key": value}
+                    guard let jsonObj = try JSONSerialization.jsonObject(with: data!, options: []) as? [String: Any] else {
+                        break
+                    }
+                    // 必须是形如{"userInfo": [value]}
+                    guard let array = (jsonObj["userinfo"] as? [Any]) else {
+                        break
+                    }
+                    guard array.count > 0 else {
+                        break
+                    }
+                    // 必须是形如{"userInfo": [{"key": value}, ...]}
+                    guard let dictionary = array[0] as? [String: Any] else {
+                        break
+                    }
+                    // 登录成功标志
+                    guard let flag = dictionary["flag"] as? String  else {
+                        break
+                    }
+                    guard  let result = Bool(flag.lowercased()) else {
+                        break
+                    }
+                    if !result {
+                        break
+                    }
+                    
+                    if let userID = dictionary["userid"] as? String,
+                        let phone = dictionary["userphone"] as? String,
+                        let locationCode = dictionary["managearea"] as? String,
+                        let token = dictionary["token"] as? String {
+                        
+                        if session.signin(userID: userID, password: password, phone: phone, locationCode: locationCode, token: token) {
+                            signed = true
+                            session.isOnline = true
+                        }
+                    }
+                    
+                }
+                catch let error {
+                    print("\(error.localizedDescription)")
+                }
+                
+            } while false
+            
+            completion(signed)
         }
         
         let failure = { (task: URLSessionDataTask?, error: Error) ->Void in
@@ -89,14 +142,7 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
      点击登录按钮
      */
     @IBAction func signinButtonClicked(_ sender: UIButton) {
-//        sender.isEnabled = false
-//        self.navigationItem.hidesBackButton = true
-        
-        let activityIndicator = DTIActivityIndicatorView(frame: CGRect(x: 0.0, y: 0.0, width: 80.0, height: 80.0))
-        activityIndicator.indicatorColor = UIColor.white
-        activityIndicator.indicatorStyle =  "spotify"
-        activityIndicator.startActivity()
-        self.activityIndicator = MyActivityIndicatorView(embedIndicator: activityIndicator)
+        self.activityIndicator = MyActivityIndicatorView()
         self.activityIndicator?.show()
         
         signin(withUserID: self.accountTextField.text!, password: self.passwordTextField.text!) {
@@ -118,12 +164,8 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
                 
                 segue.perform()
             }
-            else {
-//                sender?.isEnabled = true
-//                self.navigationItem.hidesBackButton = false
-                self.activityIndicator?.dismiss()
-            }
-        }
+            self.activityIndicator?.dismiss()
+        } // end of closure
     }
     
     // MARK: - 重载
@@ -138,7 +180,6 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
         if let l1 = self.accountTextField.text?.characters.count, let l2 = self.passwordTextField.text?.characters.count{
             self.signinButton.isEnabled =  (l1 > 0 &&  l2 > 0)
         }
-        
     }
 
     override func didReceiveMemoryWarning() {
