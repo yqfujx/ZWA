@@ -7,125 +7,22 @@
 //
 
 import UIKit
-import DTIActivityIndicator
+//import DTIActivityIndicator
 
 
 class SigninViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - 属性
+    var server: ServerStruct?
+    
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var accountTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var signinButton: UIButton!
     var activityIndicator: MyActivityIndicatorView?
     
-    @IBAction func testBaidu(_ sender: Any) {
-        let p = {(p: Progress) -> Void in
-        }
-        
-        let s = {(task: URLSessionDataTask, data: Any?) ->Void in
-            if let content = data as? Data, let string = String(data: content, encoding: .utf8) {
-                print(string)
-                
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyboard.instantiateInitialViewController()
-                
-                let segue = UIStoryboardSegue(identifier: "Temp", source: self, destination: vc!, performHandler: {
-                    vc!.modalTransitionStyle = .crossDissolve
-                    let delegate = UIApplication.shared.delegate as! AppDelegate
-                    
-                    let animation = CATransition()
-                    animation.type = kCATransitionFade
-                    delegate.window!.layer.add(animation, forKey: nil)
-                    delegate.window!.rootViewController = vc!
-                })
-                
-                segue.perform()
-            }
-        }
-        
-        let f = {(task: URLSessionDataTask?, error: Error) ->Void in
-            print(error.localizedDescription)
-        }
-        
-        let session = HTTPSession.session
-        let request: Request = .Baidu
-        session.post(request: request, progress: p, success: s, failure: f)
-    }
-
     // MARK: - 功能函数
     
-    /** 登录
-     */
-    func signin(withUserID userID: String, password: String, completion: @escaping (Bool) -> Void) -> Void {
-        
-        let request: Request = .Signin(userID, password)
-        let session = HTTPSession.session
-        
-        let success = { (task: URLSessionDataTask, data: Data?) ->Void in
-            var signed = false
-            
-            repeat {
-                guard data != nil else {
-                    break
-                }
-                
-                do {
-                    // 必须是形如{"key": value}
-                    guard let jsonObj = try JSONSerialization.jsonObject(with: data!, options: []) as? [String: Any] else {
-                        break
-                    }
-                    // 必须是形如{"userInfo": [value]}
-                    guard let array = (jsonObj["userinfo"] as? [Any]) else {
-                        break
-                    }
-                    guard array.count > 0 else {
-                        break
-                    }
-                    // 必须是形如{"userInfo": [{"key": value}, ...]}
-                    guard let dictionary = array[0] as? [String: Any] else {
-                        break
-                    }
-                    // 登录成功标志
-                    guard let flag = dictionary["flag"] as? String  else {
-                        break
-                    }
-                    guard  let result = Bool(flag.lowercased()) else {
-                        break
-                    }
-                    if !result {
-                        break
-                    }
-                    
-                    if let userID = dictionary["userid"] as? String,
-                        let phone = dictionary["userphone"] as? String,
-                        let locationCode = dictionary["managearea"] as? String,
-                        let token = dictionary["token"] as? String {
-                        
-                        if session.signin(userID: userID, password: password, phone: phone, locationCode: locationCode, token: token) {
-                            signed = true
-                            session.isOnline = true
-                        }
-                    }
-                    
-                }
-                catch let error {
-                    print("\(error.localizedDescription)")
-                }
-                
-            } while false
-            
-            completion(signed)
-        }
-        
-        let failure = { (task: URLSessionDataTask?, error: Error) ->Void in
-            completion(false)
-        }
-        
-        if session.post(request:request, progress: nil, success: success, failure: failure) == nil {
-            completion(false)
-        }
-    }
     
     // MARK: - 控件事件
 
@@ -145,9 +42,7 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
         self.activityIndicator = MyActivityIndicatorView()
         self.activityIndicator?.show()
         
-        signin(withUserID: self.accountTextField.text!, password: self.passwordTextField.text!) {
-            [unowned self](success: Bool) in
-            
+         let completion = {(success: Bool) -> Void in
             if success {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyboard.instantiateInitialViewController()
@@ -166,6 +61,10 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
             }
             self.activityIndicator?.dismiss()
         } // end of closure
+
+        if !SignService.service.signin(server: self.server!, userID: self.accountTextField.text!, password: self.passwordTextField.text!, completion: completion) {
+            self.activityIndicator?.dismiss()
+        }
     }
     
     // MARK: - 重载

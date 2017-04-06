@@ -10,6 +10,25 @@ import UIKit
 
 class LaunchViewController: UIViewController {
 
+    func switchToSceen(sceen: String) -> Void {
+        // 切换场景
+        let deadlineTime = DispatchTime.now()
+        
+        DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
+            let storyboard = UIStoryboard(name: sceen, bundle: nil)
+            if let vc = storyboard.instantiateInitialViewController() {
+                let segue = UIStoryboardSegue(identifier: nil, source: self, destination: vc, performHandler: {
+                    let delegate = UIApplication.shared.delegate as! AppDelegate
+                    let window = delegate.window!
+                    let anim = CATransition()
+                    anim.type = kCATransitionFade
+                    window.layer.add(anim, forKey: nil)
+                    window.rootViewController = vc
+                })
+                segue.perform()
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,31 +44,27 @@ class LaunchViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        // 启动画面 3 秒后进入功能界面
-        // 手动切换场景
-        let deadlineTime = DispatchTime.now() + .seconds(3)
-        DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
-            var storyboard: UIStoryboard?
-            
-            if  HTTPSession.session.didSignin {
-                storyboard = UIStoryboard(name: "Main", bundle: nil)
-            }
-            else {
-                storyboard = UIStoryboard(name: "Signin", bundle: nil)
-            }
-            
-            if let vc = storyboard?.instantiateInitialViewController() {
-                let segue = UIStoryboardSegue(identifier: nil, source: self, destination: vc, performHandler: {
-                    let delegate = UIApplication.shared.delegate as! AppDelegate
-                    let window = delegate.window!
-                    let anim = CATransition()
-                    anim.type = kCATransitionFade
-                    window.layer.add(anim, forKey: nil)
-                    window.rootViewController = vc
+        
+        if  Configuration.current.currentAccount != nil {
+            if !Configuration.current.currentAccount!.didSignin {
+                let result = SignService.service.signin(completion: { (success: Bool) in
+                    if success {
+                        self.switchToSceen(sceen: "Main")
+                    }
+                    else {
+                        self.switchToSceen(sceen: "Signin")
+                    }
                 })
-                segue.perform()
+                
+                if !result {
+                    self.switchToSceen(sceen: "Signin")
+                }
             }
         }
+        else {
+            self.switchToSceen(sceen: "Signin")
+        }
+        
     }
 
     /*

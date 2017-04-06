@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04063DCD1E8D46C700D0CF36 /* SeverListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04063DCC1E8D46C700D0CF36 /* SeverListService.swift */; };
+		040748511E8DFFF6006587B5 /* LiveDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040748501E8DFFF6006587B5 /* LiveDataService.swift */; };
 		040B2DB81E861FCB0020D04C /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040B2DB71E861FCB0020D04C /* DatabaseManager.swift */; };
 		040EF54D1E85306300A0E1FE /* MyActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040EF54C1E85306300A0E1FE /* MyActivityIndicatorView.swift */; };
 		040EF55C1E85504200A0E1FE /* tab_icon_settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 040EF55A1E85504200A0E1FE /* tab_icon_settings.png */; };
@@ -25,6 +27,8 @@
 		0425CCEC1E84FBF200ADF4D6 /* SigninViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0425CCEB1E84FBF200ADF4D6 /* SigninViewController.swift */; };
 		043058181E8A61D100DB5EC6 /* ResponseXMLParserDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043058171E8A61D100DB5EC6 /* ResponseXMLParserDelegate.swift */; };
 		0445D3531E79147400546885 /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445D3521E79147400546885 /* ChartViewController.swift */; };
+		045207E81E8CEAD600D8E584 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045207E71E8CEAD600D8E584 /* Configuration.swift */; };
+		045207EA1E8CEB2B00D8E584 /* CommonTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045207E91E8CEB2B00D8E584 /* CommonTypes.swift */; };
 		0457545C1E824DC300E68F2E /* launch.png in Resources */ = {isa = PBXBuildFile; fileRef = 0457545B1E824DC300E68F2E /* launch.png */; };
 		0457545E1E824F1300E68F2E /* ServerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457545D1E824F1300E68F2E /* ServerListViewController.swift */; };
 		045754611E826B8C00E68F2E /* login_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 0457545F1E826B8C00E68F2E /* login_btn.png */; };
@@ -34,10 +38,15 @@
 		0457546D1E827AF900E68F2E /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 045754691E827AF900E68F2E /* lock.png */; };
 		0457546E1E827AF900E68F2E /* lock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0457546A1E827AF900E68F2E /* lock@2x.png */; };
 		0459DE811E763F4200C2EDB2 /* Signin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0459DE801E763F4200C2EDB2 /* Signin.storyboard */; };
+		045BBDAF1E94CA2F00C5FDEE /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 045BBDAE1E94CA2F00C5FDEE /* UserNotifications.framework */; };
+		04696A5F1E8F34EC00F5E2E3 /* DTIActivityIndicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 040EF5741E85682000A0E1FE /* DTIActivityIndicator.framework */; };
+		04696A601E8F34EC00F5E2E3 /* DTIActivityIndicator.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 040EF5741E85682000A0E1FE /* DTIActivityIndicator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04696A651E8F9A8100F5E2E3 /* ServiceSubscriberProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04696A641E8F9A8100F5E2E3 /* ServiceSubscriberProtocol.swift */; };
 		046CF6C41E80D0C1004F6284 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CF6C31E80D0C1004F6284 /* LaunchViewController.swift */; };
-		046CF6C61E80D501004F6284 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CF6C51E80D501004F6284 /* AppConfiguration.swift */; };
 		046CF6CC1E811D6C004F6284 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 046CF6CB1E811D6C004F6284 /* Launch.storyboard */; };
-		04776E2E1E839D7E00655EAF /* HTTPSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04776E2D1E839D7E00655EAF /* HTTPSession.swift */; };
+		0484926C1E8D02E0000ECA29 /* ServiceCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0484926B1E8D02E0000ECA29 /* ServiceCenter.swift */; };
+		048492701E8D036B000ECA29 /* SignService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0484926F1E8D036B000ECA29 /* SignService.swift */; };
+		048492721E8D052E000ECA29 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048492711E8D052E000ECA29 /* NetworkService.swift */; };
 		0487BB391E7FAB21007786BA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0487BB381E7FAB21007786BA /* Main.storyboard */; };
 		34E95784ED31A8568BAD9C29 /* libPods-ZWA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01FE7DE84EA945B57E5E373A /* libPods-ZWA.a */; };
 /* End PBXBuildFile section */
@@ -71,11 +80,34 @@
 			remoteGlobalIDString = 0422435B1E6FD92C0077BD93;
 			remoteInfo = ZWA;
 		};
+		04696A611E8F34EC00F5E2E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 040EF56E1E85681F00A0E1FE /* DTIActivityIndicator.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 25FC0C731A04318500F61053;
+			remoteInfo = DTIActivityIndicator;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		04696A631E8F34EC00F5E2E3 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				04696A601E8F34EC00F5E2E3 /* DTIActivityIndicator.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		01FE7DE84EA945B57E5E373A /* libPods-ZWA.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZWA.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0292281AEC4B1A4A82787F10 /* Pods-ZWA.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZWA.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZWA/Pods-ZWA.release.xcconfig"; sourceTree = "<group>"; };
+		04063DCC1E8D46C700D0CF36 /* SeverListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeverListService.swift; sourceTree = "<group>"; };
+		040748501E8DFFF6006587B5 /* LiveDataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveDataService.swift; sourceTree = "<group>"; };
 		040B2DB71E861FCB0020D04C /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		040EF54C1E85306300A0E1FE /* MyActivityIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyActivityIndicatorView.swift; sourceTree = "<group>"; };
 		040EF55A1E85504200A0E1FE /* tab_icon_settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab_icon_settings.png; sourceTree = "<group>"; };
@@ -103,6 +135,8 @@
 		043058171E8A61D100DB5EC6 /* ResponseXMLParserDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseXMLParserDelegate.swift; sourceTree = "<group>"; };
 		0445D3521E79147400546885 /* ChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
 		044D19791E70E6F400CD5C45 /* ZWA-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZWA-Bridging-Header.h"; sourceTree = "<group>"; };
+		045207E71E8CEAD600D8E584 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		045207E91E8CEB2B00D8E584 /* CommonTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonTypes.swift; sourceTree = "<group>"; };
 		0457545B1E824DC300E68F2E /* launch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch.png; sourceTree = "<group>"; };
 		0457545D1E824F1300E68F2E /* ServerListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerListViewController.swift; sourceTree = "<group>"; };
 		0457545F1E826B8C00E68F2E /* login_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_btn.png; sourceTree = "<group>"; };
@@ -112,10 +146,14 @@
 		045754691E827AF900E68F2E /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock.png; sourceTree = "<group>"; };
 		0457546A1E827AF900E68F2E /* lock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock@2x.png"; sourceTree = "<group>"; };
 		0459DE801E763F4200C2EDB2 /* Signin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Signin.storyboard; sourceTree = "<group>"; };
+		045BBDAC1E94B85400C5FDEE /* ZWA.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZWA.entitlements; sourceTree = "<group>"; };
+		045BBDAE1E94CA2F00C5FDEE /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		04696A641E8F9A8100F5E2E3 /* ServiceSubscriberProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceSubscriberProtocol.swift; sourceTree = "<group>"; };
 		046CF6C31E80D0C1004F6284 /* LaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
-		046CF6C51E80D501004F6284 /* AppConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		046CF6CB1E811D6C004F6284 /* Launch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
-		04776E2D1E839D7E00655EAF /* HTTPSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPSession.swift; sourceTree = "<group>"; };
+		0484926B1E8D02E0000ECA29 /* ServiceCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceCenter.swift; sourceTree = "<group>"; };
+		0484926F1E8D036B000ECA29 /* SignService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignService.swift; sourceTree = "<group>"; };
+		048492711E8D052E000ECA29 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		0487BB381E7FAB21007786BA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		CFB1090DD69D8F29E489C376 /* Pods-ZWA.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZWA.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZWA/Pods-ZWA.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -125,7 +163,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				045BBDAF1E94CA2F00C5FDEE /* UserNotifications.framework in Frameworks */,
 				34E95784ED31A8568BAD9C29 /* libPods-ZWA.a in Frameworks */,
+				04696A5F1E8F34EC00F5E2E3 /* DTIActivityIndicator.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,6 +203,7 @@
 		0407A0421E8604B00023D7D4 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				045BBDAC1E94B85400C5FDEE /* ZWA.entitlements */,
 				042243661E6FD92C0077BD93 /* Assets.xcassets */,
 				044D19791E70E6F400CD5C45 /* ZWA-Bridging-Header.h */,
 				0422436B1E6FD92C0077BD93 /* Info.plist */,
@@ -180,15 +221,21 @@
 			name = UI;
 			sourceTree = "<group>";
 		};
-		040B2DB51E861F710020D04C /* Data */ = {
+		040B2DB51E861F710020D04C /* Logic */ = {
 			isa = PBXGroup;
 			children = (
-				046CF6C51E80D501004F6284 /* AppConfiguration.swift */,
-				04776E2D1E839D7E00655EAF /* HTTPSession.swift */,
+				04696A641E8F9A8100F5E2E3 /* ServiceSubscriberProtocol.swift */,
 				040B2DB71E861FCB0020D04C /* DatabaseManager.swift */,
 				043058171E8A61D100DB5EC6 /* ResponseXMLParserDelegate.swift */,
+				0484926B1E8D02E0000ECA29 /* ServiceCenter.swift */,
+				048492711E8D052E000ECA29 /* NetworkService.swift */,
+				04063DCC1E8D46C700D0CF36 /* SeverListService.swift */,
+				0484926F1E8D036B000ECA29 /* SignService.swift */,
+				045207E71E8CEAD600D8E584 /* Configuration.swift */,
+				045207E91E8CEB2B00D8E584 /* CommonTypes.swift */,
+				040748501E8DFFF6006587B5 /* LiveDataService.swift */,
 			);
-			name = Data;
+			name = Logic;
 			sourceTree = "<group>";
 		};
 		040EF56F1E85681F00A0E1FE /* Products */ = {
@@ -227,7 +274,7 @@
 		0422435E1E6FD92C0077BD93 /* ZWA */ = {
 			isa = PBXGroup;
 			children = (
-				040B2DB51E861F710020D04C /* Data */,
+				040B2DB51E861F710020D04C /* Logic */,
 				0407A0431E8605300023D7D4 /* UI */,
 				0407A0421E8604B00023D7D4 /* Support */,
 				0407A0401E8604A30023D7D4 /* Launch */,
@@ -294,6 +341,7 @@
 		5D0BABB7A442B3D3A99CC7B4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				045BBDAE1E94CA2F00C5FDEE /* UserNotifications.framework */,
 				0425CCE91E84F53100ADF4D6 /* DTIActivityIndicator.framework */,
 				01FE7DE84EA945B57E5E373A /* libPods-ZWA.a */,
 			);
@@ -322,10 +370,12 @@
 				0422435A1E6FD92C0077BD93 /* Resources */,
 				2E34E1CEC290081B433A37ED /* [CP] Embed Pods Frameworks */,
 				B9ECCC5075838EF3969E98D6 /* [CP] Copy Pods Resources */,
+				04696A631E8F34EC00F5E2E3 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				04696A621E8F34EC00F5E2E3 /* PBXTargetDependency */,
 			);
 			name = ZWA;
 			productName = ZWA;
@@ -380,9 +430,14 @@
 				TargetAttributes = {
 					0422435B1E6FD92C0077BD93 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 5Y67UGZF5N;
+						DevelopmentTeam = 6JSJY22BTE;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					0422436F1E6FD92C0077BD93 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -536,17 +591,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04776E2E1E839D7E00655EAF /* HTTPSession.swift in Sources */,
+				040748511E8DFFF6006587B5 /* LiveDataService.swift in Sources */,
+				0484926C1E8D02E0000ECA29 /* ServiceCenter.swift in Sources */,
+				04063DCD1E8D46C700D0CF36 /* SeverListService.swift in Sources */,
+				045207E81E8CEAD600D8E584 /* Configuration.swift in Sources */,
 				0425CCEC1E84FBF200ADF4D6 /* SigninViewController.swift in Sources */,
 				043058181E8A61D100DB5EC6 /* ResponseXMLParserDelegate.swift in Sources */,
+				048492721E8D052E000ECA29 /* NetworkService.swift in Sources */,
+				04696A651E8F9A8100F5E2E3 /* ServiceSubscriberProtocol.swift in Sources */,
 				040B2DB81E861FCB0020D04C /* DatabaseManager.swift in Sources */,
 				0457545E1E824F1300E68F2E /* ServerListViewController.swift in Sources */,
 				041AA4671E87548D00A909FF /* LiveTableViewCell.swift in Sources */,
 				040EF54D1E85306300A0E1FE /* MyActivityIndicatorView.swift in Sources */,
 				042243601E6FD92C0077BD93 /* AppDelegate.swift in Sources */,
 				0445D3531E79147400546885 /* ChartViewController.swift in Sources */,
-				046CF6C61E80D501004F6284 /* AppConfiguration.swift in Sources */,
+				045207EA1E8CEB2B00D8E584 /* CommonTypes.swift in Sources */,
 				040EF56B1E8555CE00A0E1FE /* LiveViewController.swift in Sources */,
+				048492701E8D036B000ECA29 /* SignService.swift in Sources */,
 				046CF6C41E80D0C1004F6284 /* LaunchViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -579,6 +640,11 @@
 			isa = PBXTargetDependency;
 			target = 0422435B1E6FD92C0077BD93 /* ZWA */;
 			targetProxy = 0422437C1E6FD92C0077BD93 /* PBXContainerItemProxy */;
+		};
+		04696A621E8F34EC00F5E2E3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DTIActivityIndicator;
+			targetProxy = 04696A611E8F34EC00F5E2E3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -691,14 +757,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CFB1090DD69D8F29E489C376 /* Pods-ZWA.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 5Y67UGZF5N;
+				CODE_SIGN_ENTITLEMENTS = ZWA/ZWA.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 6JSJY22BTE;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/DTIActivityIndicatorView-Swift-master/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = ZWA/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zonjli.ZWA;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -712,14 +782,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0292281AEC4B1A4A82787F10 /* Pods-ZWA.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 5Y67UGZF5N;
+				CODE_SIGN_ENTITLEMENTS = ZWA/ZWA.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 6JSJY22BTE;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/DTIActivityIndicatorView-Swift-master/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = ZWA/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zonjli.ZWA;
 				PRODUCT_NAME = "$(TARGET_NAME)";
