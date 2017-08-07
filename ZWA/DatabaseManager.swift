@@ -8,132 +8,109 @@
 
 import UIKit
 
-class DatabaseManager: NSObject{
-    enum TableName: String {
-        case ServerList, Live, Detail
+enum DbTabName: String {
+    case server, userInfo, station, live, search
+}
+
+class Database: FMDatabaseQueue {
+    func  removeAll() -> Void {
+        do {
+            try FileManager.default.removeItem(atPath:self.path)
+        } catch let error{
+            debugPrint("\(error.localizedDescription)")
+        }
     }
+}
+
+class DatabaseManager: NSObject{
     
-    private static var dbPath: String {
+    private static var dbDirectory: String {
         get {
             let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-            let documentsDirectory = paths[0] as NSString
-            return documentsDirectory.appendingPathComponent("sqlite.db")
+            let documentsDirectory = paths[0]
+            return documentsDirectory
         }
     }
-
-/**
-    单例对象
- */
-    static let DBM = DatabaseManager()
-    var dbQueue: FMDatabaseQueue!
     
-    private override init() {
-    }
-    
-    private func initDatabase(dbPath: String) -> Bool {
-        // 建表
-        guard let db = FMDatabase(path: dbPath), db.open() else {
-            return false
-        }
-
-        var result = true
-        repeat {
-            // 服务器列表
-            var tb = TableName.ServerList.rawValue
-            if !db.tableExists(tb) {
-                let sql = "CREATE TABLE \(tb) (" +
-                "rid TEXT, an TEXT, upi TEXT, sc TEXT, url TEXT, PRIMARY KEY(rid))"
-                guard db.executeStatements(sql) else {
-                    print(db.lastError())
-                    result = false
-                    break
-                }
+    static func publicDb() ->Database! {
+        let path = (self.dbDirectory as NSString).appendingPathComponent("public.db")
+        if let db = FMDatabase(path: path) {
+            db.open()
+            
+            if !db.tableExists(DbTabName.server.rawValue) {
+                let sql = "CREATE TABLE \(DbTabName.server.rawValue) (rid TEXT, an TEXT, upi TEXT, sc TEXT,  url TEXT)"
+                db.executeStatements(sql)
             }
             
+            db.close()
+        }
+        
+        return Database(path: path)
+    }
+    
+    static func privateDb(with userID: String) ->Database {
+        let path = (self.dbDirectory as NSString).appendingPathComponent(userID + ".db")
+        if let db = FMDatabase(path: path) {
+            db.open()
             
-            // 现场表
-            tb = TableName.Live.rawValue
-            if !db.tableExists(tb) {
-                let sql = "CREATE TABLE \(tb) (" +
-                    "sortId INTEGER NOT NULL," +
-                    "rid TEXT," +
-                    "stationId TEXT," +
+            var tabName = DbTabName.userInfo.rawValue
+            if !db.tableExists(tabName) {
+                let sql = "CREATE TABLE \(tabName) (" +
+                    "userID TEXT," +
+                    "password TEXT," +
+                    "phone TEXT," +
+                    "token TEXT," +
+                    "expireTime TEXT," +
+                    "serverUrl TEXT," +
+                    "PRIMARY KEY(userID)" + 
+                 ")"
+                db.executeStatements(sql)
+            }
+            
+            tabName = DbTabName.station.rawValue
+            if !db.tableExists(tabName) {
+                let sql = "CREATE TABLE \(tabName) (" +
+                    "zoneID TEXT," +
+                    "stationID TEXT," +
+                    "stationName TEXT," +
+                    "PRIMARY KEY(zoneID, stationID)" +
+               ")"
+                db.executeStatements(sql)
+            }
+            
+            tabName = DbTabName.live.rawValue
+            if !db.tableExists(tabName) {
+                let sql = "CREATE TABLE \(tabName) (" +
+                    "RID TEXT UNIQUE," +
+                    "stationID TEXT," +
                     "carNo TEXT," +
                     "carLane TEXT," +
                     "overWeightRate NUMERIC," +
                     "overWeight NUMERIC," +
-                    "length NUMERIC," +
-                    "width NUMERIC," +
-                    "height NUMERIC," +
-                    "scaleDate DATE," +
-                    "shaftType TEXT," +
-                    "picUrl TEXT," +
-                    "PRIMARY KEY(sortId)" +
+                    "overLength NUMERIC," +
+                    "overWidth NUMERIC," +
+                    "overHeight NUMERIC," +
+                    "checkDate DATETIME," +
+                    "checkDatetime DATETIME," +
+                    "timeInt INTEGER," +
+                    "picUrl TEXT" +
                 ")"
-                guard db.executeStatements(sql) else {
-                    print(db.lastError())
-                    result = false
-                    break
-                }
+                db.executeStatements(sql)
             }
             
-        } while false
-        db.close()
+            var sql = "CREATE INDEX IF NOT EXISTS index_liveDesc ON \(DbTabName.live.rawValue) (" +
+                "checkDate DESC, checkDatetime DESC" +
+                ")"
+            db.executeStatements(sql)
+  
+            sql = "CREATE INDEX IF NOT EXISTS index_liveAsc ON \(DbTabName.live.rawValue) (" +
+                "checkDate, checkDatetime" +
+            ")"
+            db.executeStatements(sql)
 
-        if result {
-            self.dbQueue = FMDatabaseQueue(path: dbPath)
-            if self.dbQueue == nil {
-                result = false
-            }
+            db.close()
         }
         
-        return result
-    }
-    
-    func initDatabase() ->Bool {
-        let dbPath = DatabaseManager.dbPath
-        return self.initDatabase(dbPath: dbPath)
-    }
-    
-    /*
-    // 插入测试数据
-    func insertTestData() {
-        self.dbQueue.inTransaction { (database: FMDatabase?, _: UnsafeMutablePointer<ObjCBool>?) in
-            if let db = database {
-                
-                do {
-                    for n in 1..<2000 {
-//                        let sql = "insert into live(MatchCode, Plate, LaneNo, OverRate, WidthOver, HeightOver, LengthOver, ScaleDate, PicURL) values(?, ?, ?, ?, ?, ?)"
-//                        try db.executeUpdate(sql, values: [n, "赣A12345", "A1", 0.5, 16, 17, 18, NSDate()])
-                        db.executeUpdate("INSERT INTO Live (sn, rid, Plate, LaneNo, OverRate, WidthOver, HeightOver, LengthOver, ScaleDate, PicURL) VALUES(:MatchCode, :Plate, :LaneNo, :OverRate, :WidthOver, :HeightOver, :LengthOver, :ScaleDate, :PicURL)", withParameterDictionary: [
-                            "sn": n,
-                            "rid": "S10105110220170117000014",
-                            "Plate": "赣A12345",
-                            "LaneNo": "A1",
-                            "OverRate": 50,
-                            "WidthOver": 16,
-                            "HeightOver": 17,
-                            "LengthOver": 18,
-                            "ScaleDate": Date(),
-                            "PicURL": "http://car3.autoimg.cn/cardfs/product/g9/M00/5F/52/1024x0_1_q87_autohomecar__wKgH0FcZg42AD3JMAAQ05uWN0ak963.jpg"])
-                    }
-                }
-                catch {
-                    print("\(db.lastError().localizedDescription)")
-                    return
-                }
-            }
-        }
-    }
-    */
-    
-    
-    // 删除库文件
-    func removeDatabase () {
-        do {
-            try FileManager.default.removeItem(atPath:DatabaseManager.dbPath)
-        } catch let error{
-            print("\(error.localizedDescription)")
-        }
+        return Database(path: path)
     }
 }

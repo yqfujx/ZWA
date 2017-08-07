@@ -1,92 +1,95 @@
 //
-//  ServerListViewController.swift
+//  DetailViewController.swift
 //  ZWA
 //
-//  Created by mac on 2017/3/22.
+//  Created by osx on 2017/8/2.
 //  Copyright © 2017年 zonjli. All rights reserved.
 //
 
 import UIKit
 
-class ServerListViewController: UITableViewController {
+class DetailViewController: UITableViewController {
 
-    // MARK: - 属性
-    var service: SeverListService!
-    /*
-    // MARK: - 方法
-    */
+    var data: LiveData!
     
-    // MARK: - 控件事件
-    @IBAction func updateServerList(_ sender: Any) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        let indicator = MyActivityIndicatorView()
-        indicator.show()
-        
-        let completion = {(success: Bool, error: SysError?) -> Void in
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            indicator.dismiss()
-            self.tableView.reloadData()
-        }
-        
-        self.service.update(completion: completion)
-    }
-
-    // MARK: - 重载
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "选择服务器"
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        // 数据库里没有服务器列表，则从网络上下载
-        self.service = SeverListService()
-        if self.service.repository.count <= 0{
-            UIApplication.shared.isNetworkActivityIndicatorVisible = true
-            let indicator = MyActivityIndicatorView()
-            indicator.show()
-            
-            let completion = {[weak self] (success: Bool, error: SysError?) -> Void in
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                indicator.dismiss()
-                self?.tableView.reloadData()
-            }
-            
-            self.service.update(completion: completion)
-        }
+        self.title = "明细"
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-    }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
+         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return self.service.repository.count
+        return 11
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let isTextCell = (indexPath.row != 10)
+        let identifier = (isTextCell ? "TextCell" : "ImageCell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
 
         // Configure the cell...
-        if let aServer = self.service.repository[indexPath.row] {
-            cell.textLabel?.text = aServer.name
+        if isTextCell {
+            switch indexPath.row {
+            case 0:
+                cell.textLabel?.text = "记录号:"
+                cell.detailTextLabel?.text = self.data.RID
+            case 1:
+                cell.textLabel?.text = "站点编号:"
+                cell.detailTextLabel?.text = self.data.stationID
+            case 2:
+                cell.textLabel?.text = "车牌号:"
+                cell.detailTextLabel?.text = self.data.carNo
+            case 3:
+                cell.textLabel?.text = "车道号:"
+                cell.detailTextLabel?.text = self.data.carLane
+            case 4:
+                cell.textLabel?.text = "超重率:"
+                cell.detailTextLabel?.text = String(format: "%.f", self.data.overWeightRate)
+            case 5:
+                cell.textLabel?.text = "超重:"
+                cell.detailTextLabel?.text = String(format: "%f", self.data.overWeight)
+            case 6:
+                cell.textLabel?.text = "超长:"
+                cell.detailTextLabel?.text = String(format: "%f", self.data.overLength)
+            case 7:
+                cell.textLabel?.text = "超宽:"
+                cell.detailTextLabel?.text = String(format: "%f", self.data.overWidth)
+            case 8:
+                cell.textLabel?.text = "超高:"
+                cell.detailTextLabel?.text = String(format: "%f", self.data.overHeight)
+            case 9:
+                cell.textLabel?.text = "检测时间:"
+                cell.detailTextLabel?.text = self.data.checkDatetime.string(with: "yyyy-MM-dd HH:mm:ss")
+            default:
+                break
+            }
+        }
+        else {
+            
         }
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return indexPath.row == 10 ? 240 : 44
     }
 
     /*
@@ -124,18 +127,14 @@ class ServerListViewController: UITableViewController {
     }
     */
 
+    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if segue.identifier == "ServerListToSignin" {
-            if let cell = sender as? UITableViewCell, let indexPath = self.tableView.indexPath(for: cell), let server = self.service.repository[indexPath.row] {
-                let destVc = segue.destination as! SigninViewController
-                destVc.server = server
-           }
-        }
     }
+    */
 
 }

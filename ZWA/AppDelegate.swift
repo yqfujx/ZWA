@@ -38,8 +38,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             application.registerForRemoteNotifications(matching: [.badge, .sound, .alert])
         }
         
+        ServiceCenter.start()
         
-        return ServiceCenter.center.start()
+        return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -70,7 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Convert token to string
         let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
         
-        Configuration.current.deviceToken = deviceTokenString
+        Configuration.deviceToken = deviceTokenString
         
         // Print it to console
         print("APNs device token: \(deviceTokenString)")

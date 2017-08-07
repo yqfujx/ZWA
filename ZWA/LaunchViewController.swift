@@ -45,21 +45,9 @@ class LaunchViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         
-        if  Configuration.current.currentAccount != nil {
-            if !Configuration.current.currentAccount!.didSignin {
-                let result = SignService.service.signin(completion: { (success: Bool) in
-                    if success {
-                        self.switchToSceen(sceen: "Main")
-                    }
-                    else {
-                        self.switchToSceen(sceen: "Signin")
-                    }
-                })
-                
-                if !result {
-                    self.switchToSceen(sceen: "Signin")
-                }
-            }
+        if  Configuration.authenticated {
+            _ = ServiceCenter.initAccount(userID: Configuration.userID!)
+            self.switchToSceen(sceen: "Main")
         }
         else {
             self.switchToSceen(sceen: "Signin")

@@ -29,7 +29,6 @@
 		0445D3531E79147400546885 /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445D3521E79147400546885 /* ChartViewController.swift */; };
 		045207E81E8CEAD600D8E584 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045207E71E8CEAD600D8E584 /* Configuration.swift */; };
 		045207EA1E8CEB2B00D8E584 /* CommonTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045207E91E8CEB2B00D8E584 /* CommonTypes.swift */; };
-		0457545C1E824DC300E68F2E /* launch.png in Resources */ = {isa = PBXBuildFile; fileRef = 0457545B1E824DC300E68F2E /* launch.png */; };
 		0457545E1E824F1300E68F2E /* ServerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457545D1E824F1300E68F2E /* ServerListViewController.swift */; };
 		045754611E826B8C00E68F2E /* login_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 0457545F1E826B8C00E68F2E /* login_btn.png */; };
 		045754621E826B8C00E68F2E /* login_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 045754601E826B8C00E68F2E /* login_btn@2x.png */; };
@@ -45,9 +44,27 @@
 		046CF6C41E80D0C1004F6284 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046CF6C31E80D0C1004F6284 /* LaunchViewController.swift */; };
 		046CF6CC1E811D6C004F6284 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 046CF6CB1E811D6C004F6284 /* Launch.storyboard */; };
 		0484926C1E8D02E0000ECA29 /* ServiceCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0484926B1E8D02E0000ECA29 /* ServiceCenter.swift */; };
-		048492701E8D036B000ECA29 /* SignService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0484926F1E8D036B000ECA29 /* SignService.swift */; };
 		048492721E8D052E000ECA29 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048492711E8D052E000ECA29 /* NetworkService.swift */; };
 		0487BB391E7FAB21007786BA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0487BB381E7FAB21007786BA /* Main.storyboard */; };
+		101515B61F34A85A004D76CE /* CommonPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101515B51F34A85A004D76CE /* CommonPickerViewController.swift */; };
+		10336C111F346C46007D3151 /* ConditionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10336C101F346C46007D3151 /* ConditionTableViewController.swift */; };
+		103D82E81F298E7300701FA2 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103D82E71F298E7300701FA2 /* Extension.swift */; };
+		103D82EC1F29F20000701FA2 /* AuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103D82EB1F29F20000701FA2 /* AuthorizationService.swift */; };
+		1073F8011F2ECF780069296A /* banner.png in Resources */ = {isa = PBXBuildFile; fileRef = 1073F7FF1F2ECF780069296A /* banner.png */; };
+		1073F8021F2ECF780069296A /* banner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1073F8001F2ECF780069296A /* banner@2x.png */; };
+		10A27B531F31AE6A003DBEAD /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A27B521F31AE6A003DBEAD /* DetailViewController.swift */; };
+		10A27B561F31BC46003DBEAD /* ImagesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A27B551F31BC46003DBEAD /* ImagesTableViewCell.swift */; };
+		10A27B581F31C559003DBEAD /* ConditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A27B571F31C559003DBEAD /* ConditionViewController.swift */; };
+		10A27B5A1F31D50C003DBEAD /* SearchingResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A27B591F31D50C003DBEAD /* SearchingResultViewController.swift */; };
+		10A77BE61F26E0190037ED57 /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10A77BE01F26E0190037ED57 /* close@2x.png */; };
+		10A77BE71F26E0190037ED57 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 10A77BE11F26E0190037ED57 /* close.png */; };
+		10A77BE81F26E0190037ED57 /* cover_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 10A77BE21F26E0190037ED57 /* cover_dark.png */; };
+		10A77BE91F26E0190037ED57 /* cover_light.png in Resources */ = {isa = PBXBuildFile; fileRef = 10A77BE31F26E0190037ED57 /* cover_light.png */; };
+		10A77BEA1F26E0190037ED57 /* cover_dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10A77BE41F26E0190037ED57 /* cover_dark@2x.png */; };
+		10A77BEB1F26E0190037ED57 /* cover_light@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10A77BE51F26E0190037ED57 /* cover_light@2x.png */; };
+		10BBD2201F32B32300A6DEF6 /* TableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BBD21F1F32B32300A6DEF6 /* TableViewHeaderView.swift */; };
+		10F5DBE31F35B8CD00DF5BC3 /* DatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F5DBE21F35B8CD00DF5BC3 /* DatePickerViewController.swift */; };
+		10FAB91E1F36B7D200823FF7 /* SearchingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FAB91D1F36B7D200823FF7 /* SearchingService.swift */; };
 		34E95784ED31A8568BAD9C29 /* libPods-ZWA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01FE7DE84EA945B57E5E373A /* libPods-ZWA.a */; };
 /* End PBXBuildFile section */
 
@@ -137,7 +154,6 @@
 		044D19791E70E6F400CD5C45 /* ZWA-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZWA-Bridging-Header.h"; sourceTree = "<group>"; };
 		045207E71E8CEAD600D8E584 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		045207E91E8CEB2B00D8E584 /* CommonTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonTypes.swift; sourceTree = "<group>"; };
-		0457545B1E824DC300E68F2E /* launch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch.png; sourceTree = "<group>"; };
 		0457545D1E824F1300E68F2E /* ServerListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerListViewController.swift; sourceTree = "<group>"; };
 		0457545F1E826B8C00E68F2E /* login_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_btn.png; sourceTree = "<group>"; };
 		045754601E826B8C00E68F2E /* login_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_btn@2x.png"; sourceTree = "<group>"; };
@@ -152,9 +168,27 @@
 		046CF6C31E80D0C1004F6284 /* LaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		046CF6CB1E811D6C004F6284 /* Launch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		0484926B1E8D02E0000ECA29 /* ServiceCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceCenter.swift; sourceTree = "<group>"; };
-		0484926F1E8D036B000ECA29 /* SignService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignService.swift; sourceTree = "<group>"; };
 		048492711E8D052E000ECA29 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		0487BB381E7FAB21007786BA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		101515B51F34A85A004D76CE /* CommonPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonPickerViewController.swift; sourceTree = "<group>"; };
+		10336C101F346C46007D3151 /* ConditionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionTableViewController.swift; sourceTree = "<group>"; };
+		103D82E71F298E7300701FA2 /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		103D82EB1F29F20000701FA2 /* AuthorizationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationService.swift; sourceTree = "<group>"; };
+		1073F7FF1F2ECF780069296A /* banner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner.png; sourceTree = "<group>"; };
+		1073F8001F2ECF780069296A /* banner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "banner@2x.png"; sourceTree = "<group>"; };
+		10A27B521F31AE6A003DBEAD /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		10A27B551F31BC46003DBEAD /* ImagesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesTableViewCell.swift; sourceTree = "<group>"; };
+		10A27B571F31C559003DBEAD /* ConditionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionViewController.swift; sourceTree = "<group>"; };
+		10A27B591F31D50C003DBEAD /* SearchingResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchingResultViewController.swift; sourceTree = "<group>"; };
+		10A77BE01F26E0190037ED57 /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
+		10A77BE11F26E0190037ED57 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
+		10A77BE21F26E0190037ED57 /* cover_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover_dark.png; sourceTree = "<group>"; };
+		10A77BE31F26E0190037ED57 /* cover_light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover_light.png; sourceTree = "<group>"; };
+		10A77BE41F26E0190037ED57 /* cover_dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cover_dark@2x.png"; sourceTree = "<group>"; };
+		10A77BE51F26E0190037ED57 /* cover_light@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cover_light@2x.png"; sourceTree = "<group>"; };
+		10BBD21F1F32B32300A6DEF6 /* TableViewHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewHeaderView.swift; sourceTree = "<group>"; };
+		10F5DBE21F35B8CD00DF5BC3 /* DatePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerViewController.swift; sourceTree = "<group>"; };
+		10FAB91D1F36B7D200823FF7 /* SearchingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchingService.swift; sourceTree = "<group>"; };
 		CFB1090DD69D8F29E489C376 /* Pods-ZWA.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZWA.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZWA/Pods-ZWA.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -189,13 +223,13 @@
 		0407A0401E8604A30023D7D4 /* Launch */ = {
 			isa = PBXGroup;
 			children = (
-				0425CCEB1E84FBF200ADF4D6 /* SigninViewController.swift */,
-				0459DE801E763F4200C2EDB2 /* Signin.storyboard */,
-				0457545D1E824F1300E68F2E /* ServerListViewController.swift */,
 				0422435F1E6FD92C0077BD93 /* AppDelegate.swift */,
 				042243681E6FD92C0077BD93 /* LaunchScreen.storyboard */,
-				046CF6C31E80D0C1004F6284 /* LaunchViewController.swift */,
 				046CF6CB1E811D6C004F6284 /* Launch.storyboard */,
+				046CF6C31E80D0C1004F6284 /* LaunchViewController.swift */,
+				0459DE801E763F4200C2EDB2 /* Signin.storyboard */,
+				0457545D1E824F1300E68F2E /* ServerListViewController.swift */,
+				0425CCEB1E84FBF200ADF4D6 /* SigninViewController.swift */,
 			);
 			name = Launch;
 			sourceTree = "<group>";
@@ -217,6 +251,10 @@
 				040EF54C1E85306300A0E1FE /* MyActivityIndicatorView.swift */,
 				0445D3521E79147400546885 /* ChartViewController.swift */,
 				041AA4661E87548D00A909FF /* LiveTableViewCell.swift */,
+				10A27B551F31BC46003DBEAD /* ImagesTableViewCell.swift */,
+				10BBD21F1F32B32300A6DEF6 /* TableViewHeaderView.swift */,
+				101515B51F34A85A004D76CE /* CommonPickerViewController.swift */,
+				10F5DBE21F35B8CD00DF5BC3 /* DatePickerViewController.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -224,16 +262,15 @@
 		040B2DB51E861F710020D04C /* Logic */ = {
 			isa = PBXGroup;
 			children = (
+				103D82EB1F29F20000701FA2 /* AuthorizationService.swift */,
 				04696A641E8F9A8100F5E2E3 /* ServiceSubscriberProtocol.swift */,
 				040B2DB71E861FCB0020D04C /* DatabaseManager.swift */,
 				043058171E8A61D100DB5EC6 /* ResponseXMLParserDelegate.swift */,
 				0484926B1E8D02E0000ECA29 /* ServiceCenter.swift */,
 				048492711E8D052E000ECA29 /* NetworkService.swift */,
 				04063DCC1E8D46C700D0CF36 /* SeverListService.swift */,
-				0484926F1E8D036B000ECA29 /* SignService.swift */,
-				045207E71E8CEAD600D8E584 /* Configuration.swift */,
-				045207E91E8CEB2B00D8E584 /* CommonTypes.swift */,
 				040748501E8DFFF6006587B5 /* LiveDataService.swift */,
+				10FAB91D1F36B7D200823FF7 /* SearchingService.swift */,
 			);
 			name = Logic;
 			sourceTree = "<group>";
@@ -274,6 +311,7 @@
 		0422435E1E6FD92C0077BD93 /* ZWA */ = {
 			isa = PBXGroup;
 			children = (
+				103D82EA1F298EA300701FA2 /* Common */,
 				040B2DB51E861F710020D04C /* Logic */,
 				0407A0431E8605300023D7D4 /* UI */,
 				0407A0421E8604B00023D7D4 /* Support */,
@@ -312,6 +350,14 @@
 		046CF6CD1E811EFF004F6284 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1073F7FF1F2ECF780069296A /* banner.png */,
+				1073F8001F2ECF780069296A /* banner@2x.png */,
+				10A77BE01F26E0190037ED57 /* close@2x.png */,
+				10A77BE11F26E0190037ED57 /* close.png */,
+				10A77BE21F26E0190037ED57 /* cover_dark.png */,
+				10A77BE31F26E0190037ED57 /* cover_light.png */,
+				10A77BE41F26E0190037ED57 /* cover_dark@2x.png */,
+				10A77BE51F26E0190037ED57 /* cover_light@2x.png */,
 				040EF5661E8552B600A0E1FE /* settings_icon_cover_size.png */,
 				040EF5671E8552B600A0E1FE /* settings_icon_cover_size@2x.png */,
 				040EF5601E85515000A0E1FE /* shared_toolbar_btn_list.png */,
@@ -324,7 +370,6 @@
 				0457546A1E827AF900E68F2E /* lock@2x.png */,
 				0457545F1E826B8C00E68F2E /* login_btn.png */,
 				045754601E826B8C00E68F2E /* login_btn@2x.png */,
-				0457545B1E824DC300E68F2E /* launch.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -334,8 +379,22 @@
 			children = (
 				0487BB381E7FAB21007786BA /* Main.storyboard */,
 				040EF56A1E8555CE00A0E1FE /* LiveViewController.swift */,
+				10A27B521F31AE6A003DBEAD /* DetailViewController.swift */,
+				10A27B571F31C559003DBEAD /* ConditionViewController.swift */,
+				10336C101F346C46007D3151 /* ConditionTableViewController.swift */,
+				10A27B591F31D50C003DBEAD /* SearchingResultViewController.swift */,
 			);
 			name = Dashboard;
+			sourceTree = "<group>";
+		};
+		103D82EA1F298EA300701FA2 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				103D82E71F298E7300701FA2 /* Extension.swift */,
+				045207E71E8CEAD600D8E584 /* Configuration.swift */,
+				045207E91E8CEB2B00D8E584 /* CommonTypes.swift */,
+			);
+			name = Common;
 			sourceTree = "<group>";
 		};
 		5D0BABB7A442B3D3A99CC7B4 /* Frameworks */ = {
@@ -501,22 +560,29 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0457545C1E824DC300E68F2E /* launch.png in Resources */,
 				0457546E1E827AF900E68F2E /* lock@2x.png in Resources */,
 				0457546B1E827AF900E68F2E /* account.png in Resources */,
 				0459DE811E763F4200C2EDB2 /* Signin.storyboard in Resources */,
+				1073F8011F2ECF780069296A /* banner.png in Resources */,
 				040EF5681E8552B600A0E1FE /* settings_icon_cover_size.png in Resources */,
 				0422436A1E6FD92C0077BD93 /* LaunchScreen.storyboard in Resources */,
+				10A77BEB1F26E0190037ED57 /* cover_light@2x.png in Resources */,
 				042243671E6FD92C0077BD93 /* Assets.xcassets in Resources */,
 				045754611E826B8C00E68F2E /* login_btn.png in Resources */,
 				040EF5641E85515000A0E1FE /* shared_toolbar_btn_list.png in Resources */,
+				10A77BE91F26E0190037ED57 /* cover_light.png in Resources */,
 				0487BB391E7FAB21007786BA /* Main.storyboard in Resources */,
+				10A77BE61F26E0190037ED57 /* close@2x.png in Resources */,
+				10A77BE71F26E0190037ED57 /* close.png in Resources */,
 				045754621E826B8C00E68F2E /* login_btn@2x.png in Resources */,
 				0457546D1E827AF900E68F2E /* lock.png in Resources */,
+				10A77BEA1F26E0190037ED57 /* cover_dark@2x.png in Resources */,
 				040EF55D1E85504200A0E1FE /* tab_icon_settings@2x.png in Resources */,
 				046CF6CC1E811D6C004F6284 /* Launch.storyboard in Resources */,
+				1073F8021F2ECF780069296A /* banner@2x.png in Resources */,
 				040EF5691E8552B600A0E1FE /* settings_icon_cover_size@2x.png in Resources */,
 				0457546C1E827AF900E68F2E /* account@2x.png in Resources */,
+				10A77BE81F26E0190037ED57 /* cover_dark.png in Resources */,
 				040EF55C1E85504200A0E1FE /* tab_icon_settings.png in Resources */,
 				040EF5651E85515000A0E1FE /* shared_toolbar_btn_list@2x.png in Resources */,
 			);
@@ -593,21 +659,31 @@
 			files = (
 				040748511E8DFFF6006587B5 /* LiveDataService.swift in Sources */,
 				0484926C1E8D02E0000ECA29 /* ServiceCenter.swift in Sources */,
+				10F5DBE31F35B8CD00DF5BC3 /* DatePickerViewController.swift in Sources */,
 				04063DCD1E8D46C700D0CF36 /* SeverListService.swift in Sources */,
 				045207E81E8CEAD600D8E584 /* Configuration.swift in Sources */,
+				10A27B5A1F31D50C003DBEAD /* SearchingResultViewController.swift in Sources */,
 				0425CCEC1E84FBF200ADF4D6 /* SigninViewController.swift in Sources */,
 				043058181E8A61D100DB5EC6 /* ResponseXMLParserDelegate.swift in Sources */,
 				048492721E8D052E000ECA29 /* NetworkService.swift in Sources */,
+				10A27B531F31AE6A003DBEAD /* DetailViewController.swift in Sources */,
+				10336C111F346C46007D3151 /* ConditionTableViewController.swift in Sources */,
 				04696A651E8F9A8100F5E2E3 /* ServiceSubscriberProtocol.swift in Sources */,
+				10A27B561F31BC46003DBEAD /* ImagesTableViewCell.swift in Sources */,
 				040B2DB81E861FCB0020D04C /* DatabaseManager.swift in Sources */,
 				0457545E1E824F1300E68F2E /* ServerListViewController.swift in Sources */,
 				041AA4671E87548D00A909FF /* LiveTableViewCell.swift in Sources */,
+				103D82EC1F29F20000701FA2 /* AuthorizationService.swift in Sources */,
 				040EF54D1E85306300A0E1FE /* MyActivityIndicatorView.swift in Sources */,
 				042243601E6FD92C0077BD93 /* AppDelegate.swift in Sources */,
+				10A27B581F31C559003DBEAD /* ConditionViewController.swift in Sources */,
+				103D82E81F298E7300701FA2 /* Extension.swift in Sources */,
+				10BBD2201F32B32300A6DEF6 /* TableViewHeaderView.swift in Sources */,
+				10FAB91E1F36B7D200823FF7 /* SearchingService.swift in Sources */,
 				0445D3531E79147400546885 /* ChartViewController.swift in Sources */,
+				101515B61F34A85A004D76CE /* CommonPickerViewController.swift in Sources */,
 				045207EA1E8CEB2B00D8E584 /* CommonTypes.swift in Sources */,
 				040EF56B1E8555CE00A0E1FE /* LiveViewController.swift in Sources */,
-				048492701E8D036B000ECA29 /* SignService.swift in Sources */,
 				046CF6C41E80D0C1004F6284 /* LaunchViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -770,11 +846,12 @@
 				INFOPLIST_FILE = ZWA/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zonjli.ZWA;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zonjli.ZWA1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ZWA/ZWA-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -795,10 +872,11 @@
 				INFOPLIST_FILE = ZWA/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zonjli.ZWA;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zonjli.ZWA1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ZWA/ZWA-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

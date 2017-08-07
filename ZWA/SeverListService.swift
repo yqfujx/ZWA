@@ -8,81 +8,87 @@
 
 import UIKit
 
-class SeverListService: NSObject {
-    let serviceUrl = "http://192.134.2.166:8080/Service1.asmx/AreaUrlJsStr"
+class ServerRepository {
+    private var _db: Database!
     
-    var serverCount: Int {
-        var count = 0
-        
-        DatabaseManager.DBM.dbQueue.inDatabase({ (db: FMDatabase?) in
-            let sql = "SELECT COUNT(*) FROM \(DatabaseManager.TableName.ServerList) ORDER BY rid"
-            if let rs = db?.executeQuery(sql, withArgumentsIn: nil) {
-                while rs.next() {
-                    count = Int(rs.int(forColumnIndex: 0))
-                }
-            }
-        })
-        
-        return count
-    }
-
-    func serverAtIndexPath(indexPath: IndexPath) -> ServerStruct? {
-        var server: ServerStruct?
-        
-        DatabaseManager.DBM.dbQueue.inDatabase({ (db: FMDatabase?) in
-            let sql = "SELECT an, url FROM \(DatabaseManager.TableName.ServerList) ORDER BY rid LIMIT 1 OFFSET \(indexPath.row)"
-            if let rs = db?.executeQuery(sql, withArgumentsIn: nil) {
-                while rs.next() {
-                    server = ServerStruct(name: rs.string(forColumn: "an"), url: rs.string(forColumn: "url"))
-                }
-            }
-        })
-        
-        return server
-    }
-
-    func downloadList(completion: ((Bool) -> Void)?) -> Bool {
-        let s = { (task: URLSessionDataTask, data: Data?) -> Void in
-            self.saveData(data: data ) ? completion?(true) : completion?(false)
-        }
-        
-        let f = {(task: URLSessionDataTask?, error: Error) -> Void in
-            if completion != nil {
-                completion!(false)
-            }
-        }
-        
-        let request = Request.ServerList
-        return NetworkService.service.post(url: self.serviceUrl, request: request, progress: nil, success: s, failure: f) != nil
+    init(db: Database!) {
+        self._db = db
     }
     
-    /** 服务器列表的网络数据存入数据
-     */
-    func saveData(data: Data?) -> Bool {
-        guard data != nil else {
-            return false
-        }
-        
-        do {
-            //　解析 JSON 数据
-            let jsonObj = try JSONSerialization.jsonObject(with: data!, options: []) as? [String: Any]
-            if let serverArray = jsonObj?["Table"] as? [[String: Any]] {
-                DatabaseManager.DBM.dbQueue.inTransaction({ (db: FMDatabase?, rollBack: UnsafeMutablePointer<ObjCBool>?) in
-                    var sql: String
-                    for aServer in serverArray {
-                        sql = "INSERT OR REPLACE INTO \(DatabaseManager.TableName.ServerList) (rid, an, upi, sc, url) VALUES(:rid, :an, :upi, :sc, :url)"
-                        db?.executeUpdate(sql, withParameterDictionary: aServer)
+    var count: Int {
+        get {
+            var count = 0
+            
+            self._db.inDatabase({ (db: FMDatabase?) in
+                let sql = "SELECT COUNT(*) FROM \(DbTabName.server.rawValue) ORDER BY rid"
+                if let rs = db?.executeQuery(sql, withArgumentsIn: nil) {
+                    while rs.next() {
+                        count = Int(rs.int(forColumnIndex: 0))
                     }
-                })
-                
+                }
+            })
+            
+            return count
+        }
+    }
+    
+    subscript(index: Int) ->ServerStruct? {
+        get {
+            var server: ServerStruct?
+            
+            self._db.inDatabase({ (db: FMDatabase?) in
+                let sql = "SELECT rid, an, url FROM \(DbTabName.server.rawValue) ORDER BY rowid LIMIT 1 OFFSET \(index)"
+                if let rs = db?.executeQuery(sql, withArgumentsIn: nil) {
+                    while rs.next() {
+                        server = ServerStruct(id: rs.string(forColumn: "rid"), name: rs.string(forColumn: "an"), url: rs.string(forColumn: "url"))
+                    }
+                }
+            })
+            
+            return server
+        }
+    }
+    
+    func update(dictArray: [[String: Any]]) {
+        self._db.inTransaction { (db: FMDatabase?, rollBack: UnsafeMutablePointer<ObjCBool>?) in
+            let sql = "DELETE FROM \(DbTabName.server.rawValue)"
+            db?.executeStatements(sql)
+            
+            for dic in dictArray {
+                let sql = "INSERT OR REPLACE INTO \(DbTabName.server) (rid, an, upi, sc, url) VALUES(:rid, :areaname, :upi, :sc, :url)"
+                db?.executeUpdate(sql, withParameterDictionary: dic)
             }
         }
-        catch let error {
-            print("\(error.localizedDescription)")
-            return false
-        }
-        
-        return true
     }
+}
 
+class SeverListService: NSObject {
+    let repository = ServerRepository(db: ServiceCenter.publicDb!)
+    
+    private var network: NetworkService {
+        get {
+            return NetworkService(baseURL: URL(string: Configuration.routerUrl))
+        }
+    }
+ 
+    func update(completion: ((Bool, SysError?) -> Void)?) -> Void {
+        
+        let request = Request.servers
+        _ = self.network.send(request: request) { (success: Bool, data: [String: Any]?, error: SysError?) in
+            var success = success
+            var error = error
+            
+            if success {
+                if let items = data!["Table"] as? [[String: Any]] {
+                    self.repository.update(dictArray: items)
+                }
+                else {
+                    success = false
+                    error = SysError(domain: ErrorDomain.routerService, code: ErrorCode.badData)
+                }
+            }
+            
+            completion?(success, error)
+        }
+    }
 }

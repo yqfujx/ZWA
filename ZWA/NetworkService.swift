@@ -8,68 +8,104 @@
 
 import UIKit
 
-class NetworkService: NSObject {
-    var isOnline = false
-    private var manager: AFHTTPSessionManager!
+class NetworkService: AFHTTPSessionManager {
+    // MARK: - 成员
+    private var sendDispatchQueue: DispatchQueue!
     
-    static let service = NetworkService()
-    var currentAccount: Account? {
-        get {
-            return Configuration.current.currentAccount
-        }
+    // MARK: - 属性
+    
+    // MARK: - 方法
+    
+    override init(baseURL url: URL?, sessionConfiguration configuration: URLSessionConfiguration? = URLSessionConfiguration.default) {
+        super.init(baseURL: url, sessionConfiguration: configuration)
+        self.requestSerializer = AFHTTPRequestSerializer()
+        self.requestSerializer.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        self.responseSerializer = AFXMLParserResponseSerializer()   //AFJSONResponseSerializer()
+        
+        self.sendDispatchQueue = DispatchQueue(label: "NetworkService send dispatch queue", qos: .userInitiated, attributes: .concurrent)
     }
     
-    private override init () {
-        self.manager = AFHTTPSessionManager()
-        self.manager.requestSerializer = AFHTTPRequestSerializer()
-        self.manager.responseSerializer = AFHTTPResponseSerializer()
-        self.manager.responseSerializer.acceptableContentTypes = NSSet(objects: "text/html", "text/json", "text/xml", "application/json", "application/xml") as? Set<String>
+    internal required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
-
-    func post(url: String, request: Request, progress inp: ((Progress) -> Void)?, success ins: ((URLSessionDataTask, Data?) -> Void)?, failure inf: ((URLSessionDataTask?, Error) -> Void)?) -> URLSessionDataTask? {
-        // 如果当前不在线，先要签入
-        if !self.isOnline {
-            
-        }
+    
+    /**
+     发送HTTP请求
+     */
+    func send(request: Request, completionQueue: OperationQueue?, completion: ((Bool, [String: Any]?, SysError?) ->Void)?) -> Bool {
         
-        let p = {(progress: Progress) -> Void in
-            if inp != nil {
-                inp!(progress)
-            }
-        }
-        
-        let s = {(task: URLSessionDataTask, netData: Any?) -> Void in
-            var jsonData: Data? = nil
-            
-            if let data = netData as? Data {
-                // 解析 XML，提取出内嵌的JSON 格式的字符串
-                let parser = XMLParser(data: data)
-                let delegate = ResponseXMLParserDelegate(parser: parser, keyElementName: "string")
+        let success = {(task: URLSessionDataTask, data: Any?) in
+            if let parser = data as? XMLParser {
+                // 1. 解析 XML，提取出内嵌的JSON 格式的字符串
+                //
+                let  delegate = ResponseXMLParserDelegate(parser: parser, keyElementName: "string")
                 parser.parse()
-                print("\(delegate.elementValue)")
-                jsonData = delegate.elementValue?.data(using: .utf8)
+                let xmlValue = delegate.elementValue?.data(using: .utf8)
+                
+                // 2. 字符串转换成JSon对象
+                let jsonData = try? JSONSerialization.jsonObject(with: xmlValue!, options: []) as? [String: Any]
+                
+                // 3.
+                if jsonData != nil {
+                    completionQueue?.addOperation {
+                        completion?(true, jsonData!, nil)
+                    }
+                }
+                else {
+                    let error = SysError(domain: ErrorDomain.networkService, code: ErrorCode.badData)
+                    completionQueue?.addOperation {
+                        completion?(false, nil, error)
+                    }
+                }
+            }
+        }
+        
+        let failure = { (task: URLSessionDataTask?, error: Error) in
+            let error = error as NSError
+            var sysError: SysError
+            
+            if let res = error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey] as? HTTPURLResponse {
+                let code = res.statusCode
+                sysError = SysError(domain: ErrorDomain.networkService, code: code)
+            }
+            else {
+                sysError = SysError(error: error)
             }
             
-            if ins != nil {
-                ins!(task, jsonData)
+            completionQueue?.addOperation {
+                completion?(false, nil, sysError)
             }
         }
         
-        let f = {(task: URLSessionDataTask?, error: Error) -> Void in
-            print("\(error.localizedDescription)")
-            if inf != nil {
-                inf!(task, error)
+        let (method, path, params) = request.api
+        let url = URL(string: path, relativeTo: self.baseURL)?.absoluteString
+        
+        let work = DispatchWorkItem(qos: .userInitiated, flags: .inheritQoS) {
+            switch method {
+            case .GET:
+                _ = self.get(url!, parameters: params, progress: nil, success: success, failure: failure)
+            case .POST:
+                _ = self.post(url!, parameters: params, progress: nil, success: success, failure: failure)
+            case .PUT:
+                _ = self.put(url!, parameters: params, success: success, failure: failure)
+            case .PATCH:
+                _ = self.patch(url!, parameters: params, success: success, failure: failure)
+            case .DELETE:
+                _ = self.delete(url!, parameters: params, success: success, failure: failure)
             }
         }
+        self.sendDispatchQueue.async(execute: work)
         
-        let (component, params) = request.interface
-        return self.manager.post(url + component, parameters: params, progress: p, success: s, failure: f)
+        return true
     }
     
-    func post(request: Request, progress inp: ((Progress) -> Void)?, success ins: ((URLSessionDataTask, Data?) -> Void)?, failure inf: ((URLSessionDataTask?, Error) -> Void)?) -> URLSessionDataTask? {
-        if let url = self.currentAccount?.server.url {
-            return self.post(url: url, request: request, progress: inp, success: ins, failure: inf)
+    func send(request: Request, completion: ((Bool, [String: Any]?, SysError?) ->Void)?) -> Bool {
+        return send(request: request, completionQueue: OperationQueue.main, completion: completion)
+    }
+    
+    func close() -> Void {
+        for task in self.tasks {
+            task.cancel()
         }
-        return nil
     }
 }

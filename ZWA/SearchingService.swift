@@ -1,61 +1,49 @@
 //
-//  LiveDataService.swift
+//  SearchingService.swift
 //  ZWA
 //
-//  Created by mac on 2017/3/31.
+//  Created by osx on 2017/8/6.
 //  Copyright © 2017年 zonjli. All rights reserved.
 //
 
 import UIKit
 
-// MARK: - 现场数据结构
-struct LiveData {
-    let RID: String!
-    let stationID: String!
-    let carNo: String!
-    let carLane: String!
-    let overWeightRate: Double!
-    let overWeight: Double!
-    let overLength: Double!
-    let overWidth: Double!
-    let overHeight: Double!
-    let checkDate: Date!
-    let checkDatetime: Date!
-    let timeInt: Int!
-    let picUrl: String!
-    
-    init(dictionary: [AnyHashable: Any]) {
-        self.RID = dictionary["RID"] as? String
-        self.stationID = dictionary["stationID"] as? String
-        self.carNo = dictionary["carNo"] as? String
-        self.carLane = dictionary["carLane"] as? String
-        self.overWeightRate = dictionary["overWeightRate"] as? Double
-        self.overWeight = dictionary["overWeight"] as? Double
-        self.overLength = dictionary["overLength"] as? Double
-        self.overWidth = dictionary["overWidth"] as? Double
-        self.overHeight = dictionary["overHeight"] as? Double
-        self.checkDate = Date(string: dictionary["checkDate"] as! String, format: "yyyy-MM-dd HH:mm:ss")
-        self.checkDatetime = Date(string: dictionary["checkDatetime"] as! String, format: "yyyy-MM-dd HH:mm:ss")
-        self.timeInt = dictionary["timeInt"] as? Int
-        self.picUrl = dictionary["picUrl"] as? String
-    }
-    
-}
-
-
-class LiveDataRepository {
+class SearchingResultRepository {
     private var _db: Database!
     private var _count: Int?
+    private var _tableName: String!
     
     init(db: Database) {
         self._db = db
+        self._tableName = "searchingResult"
+        
+        self._db.inTransaction { (db: FMDatabase?, rollBack: UnsafeMutablePointer<ObjCBool>?) in
+            if !db!.tableExists(self._tableName) {
+                let sql = "CREATE TEMPORARY TABLE \(self._tableName!) (" +
+                    "RID TEXT UNIQUE," +
+                    "stationID TEXT," +
+                    "carNo TEXT," +
+                    "carLane TEXT," +
+                    "overWeightRate NUMERIC," +
+                    "overWeight NUMERIC," +
+                    "overLength NUMERIC," +
+                    "overWidth NUMERIC," +
+                    "overHeight NUMERIC," +
+                    "checkDate DATETIME," +
+                    "checkDatetime DATETIME," +
+                    "timeInt INTEGER," +
+                    "picUrl TEXT" +
+                ")"
+                db?.executeStatements(sql)
+            }
+        } // end inTransaction
     }
     
     var count: Int {
         get {
             if self._count == nil {
                 self._db.inDatabase { (db: FMDatabase?) in
-                    let sql = "SELECT  COUNT(rowid) FROM \(DbTabName.live.rawValue)"
+                    let sql = "SELECT COUNT(rowid) FROM \(self._tableName!)"
                     if let rs = db?.executeQuery(sql, withArgumentsIn: nil) {
                         while rs.next() {
                             self._count = Int(rs.int(forColumnIndex: 0))
@@ -90,7 +78,7 @@ class LiveDataRepository {
         var rows = 0
         
         self._db.inTransaction { (db: FMDatabase?, rollBack: UnsafeMutablePointer<ObjCBool>?) in
-            let  sql = "INSERT OR REPLACE INTO \(DbTabName.live.rawValue) " +
+            let  sql = "INSERT OR REPLACE INTO \(self._tableName!) " +
                 "(RID, stationID, carNo, carLane, overWeightRate, overWeight, overLength, overWidth, overHeight, checkDate, checkDatetime, timeInt, picUrl) " +
             "VALUES(:RId, :stationid, :CarNo, :CarLane, :OverWeightRate, :OverWeight, :OverLength, :OverWidth, :OverHeight, :checkDate, :CheckTime, :TimeInt, :PicURL)"
             for var aServer in array {
@@ -123,7 +111,7 @@ class LiveDataRepository {
         var data: LiveData?
         
         self._db.inDatabase { (db: FMDatabase?) in
-            let sql = "SELECT * FROM \(DbTabName.live.rawValue) ORDER BY checkDatetime, rowid LIMIT 1 OFFSET \(index)"
+            let sql = "SELECT * FROM \(self._tableName!) ORDER BY checkDatetime, rowid LIMIT 1 OFFSET \(index)"
             if let rs = db?.executeQuery(sql, withArgumentsIn: nil) {
                 while rs.next() {
                     data = LiveData(dictionary: rs.resultDictionary())
@@ -143,7 +131,7 @@ class LiveDataRepository {
             var data: LiveData?
             
             self._db.inDatabase { (db: FMDatabase?) in
-                let sql = "SELECT * FROM \(DbTabName.live.rawValue) ORDER BY checkDatetime DESC, rowid DESC LIMIT 1"
+                let sql = "SELECT * FROM \(self._tableName!) ORDER BY checkDatetime DESC, rowid DESC LIMIT 1"
                 if let rs = db?.executeQuery(sql, withArgumentsIn: nil) {
                     while rs.next() {
                         data = LiveData(dictionary: rs.resultDictionary())
@@ -157,20 +145,23 @@ class LiveDataRepository {
     
 }
 
-fileprivate class LiveSyncOperation: Operation {
-    weak var repository: LiveDataRepository?
+fileprivate class SearchingOperation: Operation {
+    weak var repository: SearchingResultRepository?
     weak var completionQueue: OperationQueue?
+    var stationID: String?
+    var vehicleID: String?
+    var overloadStatus: Int?
+    var overRateLower: Int?
+    var overRateUpper: Int?
+    var lane: String?
+    var ealiestTime: Date?
+    var lastTime: Date?
+    
+    
     var success = false
     var error: SysError?
     
     override func main() {
-        guard let last  = self.repository?.last else {
-            self.cancel()
-            return
-        }
-        
-        let start = last.checkDatetime.addingTimeInterval(1)
-        let end = Date()
         var page = 1
         let token = ServiceCenter.currentAccount?.token
         
@@ -180,7 +171,7 @@ fileprivate class LiveSyncOperation: Operation {
         
         var stop = false
         while !stop && !isCancelled {
-            let request = Request.liveData(start, end, page, token!)
+            let request = Request.search(page, token!, self.stationID, self.vehicleID, self.overRateLower, self.overRateUpper, self.overloadStatus, self.lane, self.ealiestTime, self.lastTime)
             _ = ServiceCenter.network?.send(request: request, completionQueue: self.completionQueue) { (success: Bool, dictionary: [String : Any]?, error: SysError?) in
                 
                 if !self.isCancelled {
@@ -221,10 +212,11 @@ fileprivate class LiveSyncOperation: Operation {
     }
 }
 
-class LiveDataService: NSObject {
+class SearchingService: NSObject {
     let rowsPerPage = 40
-    let repository = LiveDataRepository(db: ServiceCenter.privateDb!)
-    let sendQueue = { () ->OperationQueue in
+    let repository = SearchingResultRepository(db: ServiceCenter.privateDb!)
+    
+    private let sendQueue = { () ->OperationQueue in
         let queue = OperationQueue()
         queue.maxConcurrentOperationCount = 1
         queue.qualityOfService = .userInitiated
@@ -239,51 +231,40 @@ class LiveDataService: NSObject {
     }()
     
     
-    func sync(completion: ((Bool, SysError?) ->Void)?) -> Bool {
+    func searchWith(stationID: String?,
+                    vehicleID: String?,
+                    overloadStatus: Int?,
+                    overRateLower: Int?,
+                    overRateUpper: Int?,
+                    lane: String?,
+                    earliestTime: Date?,
+                    lastTime: Date?,
+                    completion: ((Bool, SysError?) ->Void)?) -> Bool {
         if self.sendQueue.operationCount > 0 {
             return false
         }
         
         //
-        // 本地数据库中没有记录，则只同步最近的40条记录
-        if self.repository.count <= 0 {
-            self.sendQueue.addOperation {
-                let request = Request.recentLiveData(ServiceCenter.currentAccount!.userID, self.rowsPerPage, ServiceCenter.currentAccount!.token!)
-                _ = ServiceCenter.network?.send(request: request, completionQueue: self.completionQueue, completion: { (success: Bool, dictionary: [String : Any]?, error: SysError?) in
-                    var success = success
-                    var error = error
-                    
-                    if success {
-                        if let array = dictionary!["Table"] as? [[String: Any]] {
-                            _ = self.repository.update(array: array)
-                        }
-                        else {
-                            success = false
-                            error = SysError(domain: ErrorDomain.liveDataService, code: ErrorCode.badData)
-                        }
-                    }
-                    
-                    // 通知主线程更新界面
-                    DispatchQueue.main.async {
-                        completion?(success, error)
-                    }
-                })
-            }
-        }
-        else {
-            let op = LiveSyncOperation()
-            op.repository = self.repository
-            op.completionQueue = self.completionQueue
-            op.completionBlock = {
-                if !op.isCancelled {
-                    // 通知主线程更新界面
-                    DispatchQueue.main.async {
-                        completion?(op.success, op.error)
-                    }
+        let op = SearchingOperation()
+        op.repository = self.repository
+        op.completionQueue = self.completionQueue
+        op.stationID = stationID
+        op.vehicleID = vehicleID
+        op.overloadStatus = overloadStatus
+        op.overRateLower = overRateLower
+        op.overRateUpper = overRateUpper
+        op.lane = lane
+        op.ealiestTime = earliestTime
+        op.lastTime = lastTime
+        op.completionBlock = {
+            if !op.isCancelled {
+                // 通知主线程更新界面
+                DispatchQueue.main.async {
+                    completion?(op.success, op.error)
                 }
             }
-            self.sendQueue.addOperation(op)
         }
+        self.sendQueue.addOperation(op)
         
         return true
     }
@@ -292,5 +273,5 @@ class LiveDataService: NSObject {
         self.sendQueue.cancelAllOperations()
         self.completionQueue.cancelAllOperations()
     }
-
+    
 }

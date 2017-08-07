@@ -9,73 +9,70 @@
 import UIKit
 
 class Configuration: NSObject {
-//    let SLURL = "http://192.134.2.166:8080/Service1.asmx/AreaUrlJsStr"
+    static let routerUrl = "http://192.134.2.166/webservice/Service1.asmx"
 
-    enum ConfigurationKey: String {
-        case kDeviceToken, kServerName, kServiceUrl, kUserID, kPassword, kPhone, kLocationCode
-    }
-
-    static let current = Configuration()
-    
-    var currentAccount: Account? {
-        didSet {
-            self.save()
-        }
-    }
-    
-    var currentServer: ServerStruct? {
+    static var userID: String? {
         get {
-            return self.currentAccount?.server
-        }
-    }
-    
-    var deviceToken: String? {
-        get {
-            return self.item(forKey: .kDeviceToken) as? String
+            return UserDefaults.standard.string(forKey: "userID")
         }
         set {
-            self.set(newValue, forKey: .kDeviceToken)
+            UserDefaults.standard.set(newValue, forKey: "userID")
             UserDefaults.standard.synchronize()
         }
     }
     
-    private override init() {
-    }
-    
-    func item(forKey key: ConfigurationKey) -> Any? {
-        return UserDefaults.standard.value(forKey: key.rawValue)
-    }
-    
-    func set(_ item: Any?, forKey key: ConfigurationKey) -> Void {
-        UserDefaults.standard.set(item, forKey: key.rawValue)
-    }
-    
-    /** 加载配置项
-     */
-    func load() -> Void {
-        let serverName = self.item(forKey: .kServerName) as? String
-        let serviceUrl = self.item(forKey: .kServiceUrl) as? String
-        
-        if let server = ServerStruct(name: serverName, url: serviceUrl) {
-            let userID = self.item(forKey: .kUserID) as? String
-            let password = self.item(forKey: .kPassword) as? String
-            let phone = self.item(forKey: .kPhone) as? String
-            let locationCode = self.item(forKey: .kLocationCode) as? String
-            self.currentAccount = Account(server: server, userID: userID, password: password, phone: phone, locationCode: locationCode, token: nil)
+    static var password: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "password")
         }
-        
+        set {
+            UserDefaults.standard.set(newValue, forKey: "password")
+            UserDefaults.standard.synchronize()
+        }
     }
     
-    /** 保存配置项
-     */
-    func save() -> Void {
-        self.set(self.currentAccount?.server.name, forKey: .kServerName)
-        self.set(self.currentAccount?.server.url, forKey: .kServiceUrl)
-        self.set(self.currentAccount?.userID, forKey: .kUserID)
-        self.set(self.currentAccount?.password, forKey: .kPassword)
-        self.set(self.currentAccount?.phone, forKey: .kPhone)
-        self.set(self.currentAccount?.locationCode, forKey: .kLocationCode)
-        
-        UserDefaults.standard.synchronize()
+    static var authenticated: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "authenticated")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "authenticated")
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
+    static var expiredTime: Date? {
+        get {
+            if let value = UserDefaults.standard.string(forKey: "expiredTime") {
+                return Date(string: value, format: "yyyy-MM-dd HH:mm:ss")
+            }
+            else {
+                return nil
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue?.string(with: "yyyy-MM-dd HH:mm:ss"), forKey: "expiredTime")
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
+    static var deviceToken: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "deviceToken")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "deviceToken")
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
+    static var sessionToken: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "sessionToken")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "sessionToken")
+            UserDefaults.standard.synchronize()
+        }
     }
 }
