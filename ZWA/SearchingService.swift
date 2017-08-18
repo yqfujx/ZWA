@@ -17,32 +17,34 @@ class SearchingResultRepository {
         self._db = db
         self._tableName = "searchingResult"
         
-        self._db.inTransaction { (db: FMDatabase?, rollBack: UnsafeMutablePointer<ObjCBool>?) in
-            if !db!.tableExists(self._tableName) {
-                let sql = "CREATE TEMPORARY TABLE \(self._tableName!) (" +
-                    "RID TEXT UNIQUE," +
-                    "stationID TEXT," +
-                    "carNo TEXT," +
-                    "carLane TEXT," +
-                    "overWeightRate NUMERIC," +
-                    "overWeight NUMERIC," +
-                    "overLength NUMERIC," +
-                    "overWidth NUMERIC," +
-                    "overHeight NUMERIC," +
-                    "checkDate DATETIME," +
-                    "checkDatetime DATETIME," +
-                    "timeInt INTEGER," +
-                    "picUrl TEXT" +
-                ")"
+        self._db.inTransaction { [unowned self] (db: FMDatabase?, rollBack: UnsafeMutablePointer<ObjCBool>?) in
+            if db!.tableExists(self._tableName) {
+                let sql = "DROP TABLE \(self._tableName!)"
                 db?.executeStatements(sql)
             }
+            let sql = "CREATE TABLE \(self._tableName!) (" +
+                "RID TEXT UNIQUE," +
+                "stationID TEXT," +
+                "carNo TEXT," +
+                "carLane TEXT," +
+                "overWeightRate NUMERIC," +
+                "overWeight NUMERIC," +
+                "overLength NUMERIC," +
+                "overWidth NUMERIC," +
+                "overHeight NUMERIC," +
+                "checkDate DATETIME," +
+                "checkDatetime DATETIME," +
+                "timeInt INTEGER," +
+                "picUrl TEXT" +
+            ")"
+            db?.executeStatements(sql)
         } // end inTransaction
     }
     
     var count: Int {
         get {
             if self._count == nil {
-                self._db.inDatabase { (db: FMDatabase?) in
+                self._db.inDatabase { [unowned self] (db: FMDatabase?) in
                     let sql = "SELECT COUNT(rowid) FROM \(self._tableName!)"
                     if let rs = db?.executeQuery(sql, withArgumentsIn: nil) {
                         while rs.next() {
@@ -77,7 +79,7 @@ class SearchingResultRepository {
     func update(array: [[String: Any]]) -> Int {
         var rows = 0
         
-        self._db.inTransaction { (db: FMDatabase?, rollBack: UnsafeMutablePointer<ObjCBool>?) in
+        self._db.inTransaction { [unowned self] (db: FMDatabase?, rollBack: UnsafeMutablePointer<ObjCBool>?) in
             let  sql = "INSERT OR REPLACE INTO \(self._tableName!) " +
                 "(RID, stationID, carNo, carLane, overWeightRate, overWeight, overLength, overWidth, overHeight, checkDate, checkDatetime, timeInt, picUrl) " +
             "VALUES(:RId, :stationid, :CarNo, :CarLane, :OverWeightRate, :OverWeight, :OverLength, :OverWidth, :OverHeight, :checkDate, :CheckTime, :TimeInt, :PicURL)"
@@ -110,7 +112,7 @@ class SearchingResultRepository {
         
         var data: LiveData?
         
-        self._db.inDatabase { (db: FMDatabase?) in
+        self._db.inDatabase { [unowned self] (db: FMDatabase?) in
             let sql = "SELECT * FROM \(self._tableName!) ORDER BY checkDatetime, rowid LIMIT 1 OFFSET \(index)"
             if let rs = db?.executeQuery(sql, withArgumentsIn: nil) {
                 while rs.next() {
@@ -130,7 +132,7 @@ class SearchingResultRepository {
             
             var data: LiveData?
             
-            self._db.inDatabase { (db: FMDatabase?) in
+            self._db.inDatabase { [unowned self] (db: FMDatabase?) in
                 let sql = "SELECT * FROM \(self._tableName!) ORDER BY checkDatetime DESC, rowid DESC LIMIT 1"
                 if let rs = db?.executeQuery(sql, withArgumentsIn: nil) {
                     while rs.next() {
@@ -167,10 +169,11 @@ fileprivate class SearchingOperation: Operation {
         
         //
         let group = DispatchGroup()
-        group.enter()
         
         var stop = false
         while !stop && !isCancelled {
+            group.enter()
+
             let request = Request.search(page, token!, self.stationID, self.vehicleID, self.overRateLower, self.overRateUpper, self.overloadStatus, self.lane, self.ealiestTime, self.lastTime)
             _ = ServiceCenter.network?.send(request: request, completionQueue: self.completionQueue) { (success: Bool, dictionary: [String : Any]?, error: SysError?) in
                 
@@ -230,6 +233,9 @@ class SearchingService: NSObject {
         return queue
     }()
     
+    deinit {
+        self.stop()
+    }
     
     func searchWith(stationID: String?,
                     vehicleID: String?,
@@ -256,11 +262,15 @@ class SearchingService: NSObject {
         op.lane = lane
         op.ealiestTime = earliestTime
         op.lastTime = lastTime
-        op.completionBlock = {
-            if !op.isCancelled {
-                // 通知主线程更新界面
-                DispatchQueue.main.async {
-                    completion?(op.success, op.error)
+        op.completionBlock = { [weak op] () in
+            if let op = op {
+                if !op.isCancelled {
+                    // 通知主线程更新界面
+                    let success = op.success
+                    let error = op.error
+                    DispatchQueue.main.async {
+                        completion?(success, error)
+                    }
                 }
             }
         }

@@ -9,7 +9,15 @@
 import UIKit
 
 
+let pushNotification = "pushNotification"
+let logoutNotification = "logoutNotification"
 
+protocol DescriptiveObject {
+    var description: String { get }
+}
+
+extension String: DescriptiveObject {
+}
 
 /**
  定义服务器信息
@@ -75,12 +83,16 @@ struct Account {
 /**
  站点信息
  */
-struct Station {
+struct Station: DescriptiveObject {
     let zoneID: String
     let stationID: String
     let stationName: String
+    var description: String {
+        get {
+            return self.stationName
+        }
+    }
 }
-
 
 enum HttpMethod: String {
     case GET = "GET"
@@ -101,6 +113,7 @@ enum Request {
     case liveData(Date, Date, Int, String)
     case recentLiveData(String, Int, String)
     case search(Int, String, String?, String?, Int?, Int?, Int?, String?, Date?, Date?)
+    case statistic(String, String, String, Date, String)
     
     var api: (HttpMethod, String, [String: Any]?) {
         let method = HttpMethod.POST
@@ -129,18 +142,27 @@ enum Request {
             params?["carlane"] = ""
             
         case .search(let page,  let token, let stationID, let vehicleID, let overRateLower, let overRateUpper, let overloadStatus, let lane, let earliestTime, let lastTime):
-            path = "conditionSQL"
+            path = "conditonSQL"
             params = ["selectpage": page, "token": token]
             params?["stationid"] = stationID ?? ""
             params?["carno"] = vehicleID ?? ""
             params?["overwtratelow"] = overRateLower ?? ""
             params?["overwtratehigh"] = overRateUpper ?? ""
-            params?["overflag"] = overloadStatus ?? ""
+            if let overloadStatus = overloadStatus {
+                params?["overflag"] = (overloadStatus == 0 ? "overwt" : "noover")
+            }
+            else {
+                params?["overflag"] = ""
+            }
             params?["carlane"] = lane ?? ""
             params?["starttime"] = (earliestTime != nil) ? earliestTime?.string(with: "yyyy-MM-dd HH:mm:ss") : ""
             params?["endtime"] = (lastTime != nil) ? lastTime?.string(with: "yyyy-MM-dd HH:mm:ss") : ""
-        default:
-            break
+            
+        case .statistic(let stationID, let key, let timeSpan, let date, let token):
+            path = "CountSQLIOS"
+            params = ["stationid": stationID, "sqltime": date.string(with: "yyyy-MM-dd"), "timeflag": timeSpan, "sqlorderby": key, "token": token]
+//        default:
+//            break
         }
         
         return (method, path, params)
@@ -180,6 +202,7 @@ struct ErrorDomain {
     static let routerService = "RouterService"
     static let authorizationService = "AuthorizationService"
     static let liveDataService = "LiveDataService"
+    static let statisticsService = "StatisticsService"
 }
 
 struct ErrorCode {
@@ -199,5 +222,49 @@ struct ErrorCode {
         }
         
         return string
+    }
+}
+
+enum StatisticsTimeSpan: String, DescriptiveObject {
+    case day = "sd"
+    case week = "sz"
+    case month = "sm"
+    case year = "sy"
+    
+    var description: String {
+        get {
+            switch self {
+            case .day:
+                return "统计当日"
+            case .week:
+                return "统计当周"
+            case .month:
+                return "统计当月"
+            case .year:
+                return "统计当年"
+            }
+        }
+    }
+}
+
+enum StatisticsKey: String, DescriptiveObject {
+    case axle = "zs"
+    case lane = "cd"
+    case overload = "cz"
+    case rate = "czl"
+    
+    var description: String {
+        get {
+            switch self {
+            case .axle:
+                return "按轴数统计"
+            case .lane:
+                return "按车道统计"
+            case .overload:
+                return "按超载统计"
+            case .rate:
+                return "按超载率统计"
+            }
+        }
     }
 }

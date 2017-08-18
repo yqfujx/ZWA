@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        application.applicationIconBadgeNumber = 0
         
         // iOS 10 support
         if #available(iOS 10, *) {
@@ -39,7 +40,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         ServiceCenter.start()
-        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(logoutNotification), object: nil, queue: OperationQueue.main) { (Notification) in
+            ServiceCenter.stop()
+            Configuration.authenticated = false
+            let vc = UIStoryboard(name: "Launch", bundle: nil).instantiateInitialViewController()
+            self.window?.rootViewController = vc
+        }
         return true
     }
 
@@ -59,6 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        application.applicationIconBadgeNumber = 0
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -74,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Configuration.deviceToken = deviceTokenString
         
         // Print it to console
-        print("APNs device token: \(deviceTokenString)")
+        debugPrint("APNs device token: \(deviceTokenString)")
         
         // Persist it in your backend in case it's new
     }
@@ -82,12 +89,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Called when APNs failed to register the device for push notifications
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         // Print the error to console (you should alert the user that registration failed)
-        print("APNs registration failed: \(error)")
+        debugPrint("APNs registration failed: \(error)")
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification data: [AnyHashable : Any]) {
         // Print notification payload data
-        print("Push notification received: \(data)")
+        debugPrint("Push notification received: \(data)")
+        
+//        if let aps = data["aps"] as? [AnyHashable : Any] {
+//            if let badge = aps["badge"] as? Int {
+//                application.applicationIconBadgeNumber = badge
+                
+                let notification = Notification(name: Notification.Name.init(pushNotification))
+                NotificationCenter.default.post(notification)
+//            }
+//        }
+    }
+    
+    func onLogoutNotification(notification: Notification) -> Void {
+        
     }
 }
 

@@ -10,7 +10,7 @@ import UIKit
 import DTIActivityIndicator
 
 class MyActivityIndicatorView: UIView {
-    var embedIndicator: DTIActivityIndicatorView!
+    weak var embedIndicator: DTIActivityIndicatorView!
     
     
     /*
@@ -50,6 +50,7 @@ class MyActivityIndicatorView: UIView {
     
     func dismiss() -> Void {
         self.embedIndicator.stopActivity()
+        self.embedIndicator.removeFromSuperview()
         self.removeFromSuperview()
     }
 }

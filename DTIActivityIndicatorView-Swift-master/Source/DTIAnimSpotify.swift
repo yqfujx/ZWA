@@ -11,7 +11,7 @@ import QuartzCore
 
 class DTIAnimSpotify: DTIAnimProtocol {
     /** private properties */
-    fileprivate let owner: DTIActivityIndicatorView
+    fileprivate weak var owner: DTIActivityIndicatorView!
     
     fileprivate let spinnerView = UIView()
     fileprivate let circleView = UIView()

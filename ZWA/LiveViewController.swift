@@ -9,20 +9,45 @@
 import UIKit
 
 class LiveViewController: UITableViewController {
+    private let _statusColors =  [UIColor.init(0x000000),
+                                  UIColor.init(0x663333),
+                                  UIColor.init(0x993333),
+                                  UIColor.init(0xFF9999),
+                                  UIColor.init(0xFF6699),
+                                  UIColor.init(0xCC3333),
+                                  UIColor.init(0xCC0033),
+                                  UIColor.init(0xFF6666),
+                                  UIColor.init(0xFF3333),
+                                  UIColor.init(0xFF0033),
+                                  UIColor.init(0xFF0000),
+                                  UIColor.init(0xCC0000),
+                                  ]
+    
     var service: LiveDataService!
     var isBusy = false
+    // 为了防止在更新数据库时影响现有记录列表的显示，特使用成员变量保存当前记录数，
+    // 使得列表中显示的数据都是数据库已存在的数据，追加的新数据待完成数据库更新后刷新显示
+    private var _count = 0
+    private var _notificationObserver: Any?
     
     /*
     // 给TableView加点装饰
     */
     func decorateTableView() -> Void {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: 44))
+        
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         var frame = indicator.frame
-        frame.origin.x = (self.tableView.bounds.size.width - frame.size.width) / 2.0
-        frame.origin.y = -44 + (44 - frame.size.height) / 2.0
+        frame.origin.x = (view.bounds.size.width - frame.size.width) / 2.0
+        frame.origin.y = (44 - frame.size.height) / 2.0
         indicator.frame = frame
-        self.tableView.addSubview(indicator)
+        view.addSubview(indicator)
         indicator.startAnimating()
+        
+        self.tableView.tableFooterView = view
+        var insets = self.tableView.contentInset
+        insets.bottom -= view.frame.size.height
+        self.tableView.contentInset = insets
 
         /*
         let w = self.tableView.bounds.size.width
@@ -46,26 +71,9 @@ class LiveViewController: UITableViewController {
     从记录集创建状态字符串
     */
     func statusString(with data: LiveData) -> NSAttributedString? {
-        
-        var string = "正常"
-        var color = UIColor.black
-        
-        if data.overWeight > 0 {
-            string = "超重"
-            color = .red
-        }
-        else if data.overWidth > 0 {
-            string = "超宽"
-            color = .red
-        }
-        else if data.overLength > 0 {
-            string = "超长"
-            color = .red
-        }
-        else if data.overHeight > 0 {
-            string = "超高"
-            color = .red
-        }
+        let string = String(format: "超载率 %.f%%", data.overWeightRate)
+        let level = min(10, max(0, Int(data.overWeightRate) / 10))
+        let color = self._statusColors[level]
         
         return NSAttributedString(string: string, attributes: [NSForegroundColorAttributeName: color])
     }
@@ -77,24 +85,33 @@ class LiveViewController: UITableViewController {
         self.isBusy = true
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        let count = self.service.repository.count
-        let indicator = MyActivityIndicatorView()
-        indicator.show()
+//        let indicator = MyActivityIndicatorView()
+//        indicator.show()
         
-        if !self.service.sync(completion: { [unowned self] (success: Bool, error: SysError?) in
+        if !self.service.sync(completion: { [weak self] (success: Bool, error: SysError?) in
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             
+            guard self != nil else {
+                return
+            }
             // 考虑到在分页请求过程中，有可能出现“部分成功”的现象，
             // 因此对比请求前后结果集中记录数的变化，更为准确
-            if self.service.repository.count != count {
-                self.tableView.reloadData()
+            if self?.service.repository.count != self?._count {
+                self!._count = self!.service.repository.count
+                self?.tableView.reloadData()
             }
-            indicator.dismiss()
-            self.isBusy = false
+//            indicator.dismiss()
+            self?.isBusy = false
         }) {
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            indicator.dismiss()
+//            indicator.dismiss()
             self.isBusy = false
+        }
+    }
+    
+    func onPushNotification(notificatiion: Notification) -> Void {
+        DispatchQueue.main.sync {
+            self.syncData()
         }
     }
     
@@ -109,10 +126,24 @@ class LiveViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         self.title = "现场"
       
-        decorateTableView()
         self.service = LiveDataService()
-//        self.syncData()
+        decorateTableView()
+        self._count = self.service.repository.count
         self.tableView.contentOffset = CGPoint(x: 0, y: CGFloat.greatestFiniteMagnitude)
+        
+        self._notificationObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.init(pushNotification), object: nil, queue: OperationQueue.main) {_ in
+            self.syncData()
+        }
+        
+        self.syncData()
+    }
+    
+    deinit {
+        if self._notificationObserver != nil {
+            NotificationCenter.default.removeObserver(self._notificationObserver!, name: NSNotification.Name.init(pushNotification), object: nil)
+        }
+        self.service.stop()
+        self.service = nil
     }
 
     override func didReceiveMemoryWarning() {
@@ -129,7 +160,7 @@ class LiveViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.service.repository.count
+        return self._count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -182,10 +213,11 @@ class LiveViewController: UITableViewController {
         
         if !self.isBusy {
             
+            let size = scrollView.contentSize
             let offset = scrollView.contentOffset
             let insets = scrollView.contentInset
-            
-            if offset.y + insets.top < -44 {
+            let total = offset.y + scrollView.frame.size.height + insets.bottom
+            if total > size.height + 44{
                 self.syncData()
             }
         }

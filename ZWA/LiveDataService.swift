@@ -54,7 +54,7 @@ class LiveDataRepository {
     var count: Int {
         get {
             if self._count == nil {
-                self._db.inDatabase { (db: FMDatabase?) in
+                self._db.inDatabase { [unowned self] (db: FMDatabase?) in
                     let sql = "SELECT  COUNT(rowid) FROM \(DbTabName.live.rawValue)"
                     if let rs = db?.executeQuery(sql, withArgumentsIn: nil) {
                         while rs.next() {
@@ -89,7 +89,7 @@ class LiveDataRepository {
     func update(array: [[String: Any]]) -> Int {
         var rows = 0
         
-        self._db.inTransaction { (db: FMDatabase?, rollBack: UnsafeMutablePointer<ObjCBool>?) in
+        self._db.inTransaction { [unowned self] (db: FMDatabase?, rollBack: UnsafeMutablePointer<ObjCBool>?) in
             let  sql = "INSERT OR REPLACE INTO \(DbTabName.live.rawValue) " +
                 "(RID, stationID, carNo, carLane, overWeightRate, overWeight, overLength, overWidth, overHeight, checkDate, checkDatetime, timeInt, picUrl) " +
             "VALUES(:RId, :stationid, :CarNo, :CarLane, :OverWeightRate, :OverWeight, :OverLength, :OverWidth, :OverHeight, :checkDate, :CheckTime, :TimeInt, :PicURL)"
@@ -181,14 +181,18 @@ fileprivate class LiveSyncOperation: Operation {
         var stop = false
         while !stop && !isCancelled {
             let request = Request.liveData(start, end, page, token!)
-            _ = ServiceCenter.network?.send(request: request, completionQueue: self.completionQueue) { (success: Bool, dictionary: [String : Any]?, error: SysError?) in
+            _ = ServiceCenter.network?.send(request: request, completionQueue: self.completionQueue) { [weak self] (success: Bool, dictionary: [String : Any]?, error: SysError?) in
                 
-                if !self.isCancelled {
-                    self.success = success
-                    self.error = error
-                    if self.success {
+                guard let _self = self else {
+                    return
+                }
+                
+                if !_self.isCancelled {
+                    _self.success = success
+                    _self.error = error
+                    if _self.success {
                         if let pageCount = dictionary!["pagecount"] as? Int, let array = dictionary!["Table"] as? [[String: Any]] {
-                            _ = self.repository?.update(array: array)
+                            _ = _self.repository?.update(array: array)
                             
                             page += 1
                             if page >= pageCount { // 已收到最后一页
@@ -196,8 +200,8 @@ fileprivate class LiveSyncOperation: Operation {
                             }
                         }
                         else {
-                            self.success = false
-                            self.error = SysError(domain: ErrorDomain.liveDataService, code: ErrorCode.badData)
+                            _self.success = false
+                            _self.error = SysError(domain: ErrorDomain.liveDataService, code: ErrorCode.badData)
                             stop = true
                         }
                     }
@@ -238,6 +242,9 @@ class LiveDataService: NSObject {
         return queue
     }()
     
+    deinit {
+        self.stop()
+    }
     
     func sync(completion: ((Bool, SysError?) ->Void)?) -> Bool {
         if self.sendQueue.operationCount > 0 {
@@ -247,15 +254,24 @@ class LiveDataService: NSObject {
         //
         // 本地数据库中没有记录，则只同步最近的40条记录
         if self.repository.count <= 0 {
-            self.sendQueue.addOperation {
-                let request = Request.recentLiveData(ServiceCenter.currentAccount!.userID, self.rowsPerPage, ServiceCenter.currentAccount!.token!)
-                _ = ServiceCenter.network?.send(request: request, completionQueue: self.completionQueue, completion: { (success: Bool, dictionary: [String : Any]?, error: SysError?) in
+            self.sendQueue.addOperation { [weak self] () in
+                guard let _self = self else {
+                    return
+                }
+                
+                let request = Request.recentLiveData(ServiceCenter.currentAccount!.userID, _self.rowsPerPage, ServiceCenter.currentAccount!.token!)
+                _ = ServiceCenter.network?.send(request: request, completionQueue: _self.completionQueue, completion: { [weak _self] (success: Bool, dictionary: [String : Any]?, error: SysError?) in
+                    
+                    guard let _self = _self else {
+                        return
+                    }
+                    
                     var success = success
                     var error = error
                     
                     if success {
                         if let array = dictionary!["Table"] as? [[String: Any]] {
-                            _ = self.repository.update(array: array)
+                            _ = _self.repository.update(array: array)
                         }
                         else {
                             success = false
@@ -274,11 +290,18 @@ class LiveDataService: NSObject {
             let op = LiveSyncOperation()
             op.repository = self.repository
             op.completionQueue = self.completionQueue
-            op.completionBlock = {
+            op.completionBlock = { [weak op] () in
+                guard let op = op else {
+                    return
+                }
+                
                 if !op.isCancelled {
+                    
+                    let success = op.success
+                    let error = op.error
                     // 通知主线程更新界面
                     DispatchQueue.main.async {
-                        completion?(op.success, op.error)
+                        completion?(success, error)
                     }
                 }
             }

@@ -72,6 +72,8 @@ class NetworkService: AFHTTPSessionManager {
                 sysError = SysError(error: error)
             }
             
+            debugPrint("\(sysError.localizedDescription)")
+            
             completionQueue?.addOperation {
                 completion?(false, nil, sysError)
             }
@@ -80,7 +82,7 @@ class NetworkService: AFHTTPSessionManager {
         let (method, path, params) = request.api
         let url = URL(string: path, relativeTo: self.baseURL)?.absoluteString
         
-        let work = DispatchWorkItem(qos: .userInitiated, flags: .inheritQoS) {
+        let work = DispatchWorkItem(qos: .userInitiated, flags: .inheritQoS) { [unowned self] () in
             switch method {
             case .GET:
                 _ = self.get(url!, parameters: params, progress: nil, success: success, failure: failure)

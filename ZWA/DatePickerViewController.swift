@@ -14,12 +14,14 @@ class DatePickerViewController: UIViewController {
     
     var context: Any?
     
+    private var _date: Date?
     var date: Date? {
         get {
             return self.datePicker?.date
         }
         set {
             if let newValue = newValue {
+                self._date = newValue
                 self.datePicker?.date = newValue
             }
         }
@@ -29,6 +31,9 @@ class DatePickerViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        if self._date != nil {
+            self.datePicker.date = self._date!
+        }
     }
 
     override func didReceiveMemoryWarning() {

@@ -13,6 +13,8 @@ class ConditionTableViewController: UITableViewController, UIPopoverPresentation
     @IBOutlet weak var stationNameLabel: UILabel!
     @IBOutlet weak var vehicleIDButton: UIButton!
     @IBOutlet weak var vehicleIDTextField: UITextField!
+    @IBOutlet weak var overRateLowerLabell: UILabel!
+    @IBOutlet weak var overRateUpperLabel: UILabel!
     @IBOutlet weak var overRateLowerTextField: UITextField!
     @IBOutlet weak var overRateUpperTextField: UITextField!
     @IBOutlet weak var overloadStatusSegment: UISegmentedControl!
@@ -21,13 +23,18 @@ class ConditionTableViewController: UITableViewController, UIPopoverPresentation
     @IBOutlet weak var endTimeLabel: UILabel!
     
     private var _sectionData: [(String, Bool, Int)] = [
-        ("站点", false, 1),
+        ("站点", true, 1),
+        ("检测时间", true, 1),
+        ("检测时间", true, 1),
+        ("超载状态", true, 3),
         ("车牌", false, 1),
-        ("超载状态", false, 3),
         ("车道", false, 1),
-        ("检测时间", false, 1),
-        ("检测时间", false, 1)
     ]
+    var sectionData: [(String, Bool, Int)] {
+        get {
+            return self._sectionData
+        }
+    }
     
     private let _provinces: [String] = [
     "京", "沪", "津", "渝", "黑", "吉", "辽", "蒙", "冀", "新", "甘", "青", "陕", "宁", "豫", "鲁", "晋", "皖", "鄂", "湘", "赣", "苏", "川", "黔", "滇", "桂", "藏", "浙", "粤", "闽", "琼"
@@ -35,14 +42,59 @@ class ConditionTableViewController: UITableViewController, UIPopoverPresentation
     
     
     private var _station: Station?
+    var station: Station? {
+        get {
+            return self._station
+        }
+    }
     private var _province: String?
+    var province: String? {
+        get {
+            return self._province
+        }
+    }
     private var _vehicleID: String?
+    var vehicleID: String? {
+        get {
+            return self._vehicleID
+        }
+    }
     private var _overloadStatus: Int?
+    var overloadStatus: Int? {
+        get {
+            return self._overloadStatus
+        }
+    }
     private var _overRateLower: Int?
+    var overRateLower: Int? {
+        get {
+            return self._overRateLower
+        }
+    }
     private var _overRateUpper: Int?
+    var overRateUpper: Int? {
+        get {
+            return self._overRateUpper
+        }
+    }
     private var _lane: String?
+    var lane: String? {
+        get {
+            return self._lane
+        }
+    }
     private var _startTime: Date?
+    var startTime: Date? {
+        get {
+            return self._startTime
+        }
+    }
     private var _endTime: Date?
+    var endTime: Date? {
+        get {
+            return self._endTime
+        }
+    }
     
     private lazy var _stations: [Station]? = {
         var stations: [Station]?
@@ -63,6 +115,11 @@ class ConditionTableViewController: UITableViewController, UIPopoverPresentation
         
         return stations
     }()
+    var stations: [Station]? {
+        get {
+            return self._stations
+        }
+    }
     
     private lazy var _stationNames: [String]? = {
         var names = self._stations?.map({ (station: Station) -> String in
@@ -76,6 +133,18 @@ class ConditionTableViewController: UITableViewController, UIPopoverPresentation
     @IBAction func overloadStatusChanged(_ sender: Any) {
         if let segment = sender as? UISegmentedControl {
             self._overloadStatus = segment.selectedSegmentIndex
+            if self._overloadStatus == 0 {
+                self.overRateLowerLabell.isEnabled = true
+                self.overRateUpperLabel.isEnabled = true
+                self.overRateLowerTextField.isEnabled = true
+                self.overRateUpperTextField.isEnabled = true
+            }
+            else {
+                self.overRateLowerLabell.isEnabled = false
+                self.overRateUpperLabel.isEnabled = false
+                self.overRateLowerTextField.isEnabled = false
+                self.overRateUpperTextField.isEnabled = false
+            }
         }
     }
     
@@ -94,24 +163,34 @@ class ConditionTableViewController: UITableViewController, UIPopoverPresentation
         else if textField === self.overRateLowerTextField {
             let lowerText = !String.isEmptyOrNil(string: textField.text) ? textField.text! : "0"
             var lower = Int(lowerText)!
-            lower = min(100, max(0, lower))
+            lower = max(0, lower)
+            self._overRateLower = lower
             textField.text = String(format: "%d", lower)
             
             let upperText = !String.isEmptyOrNil(string: self.overRateUpperTextField.text) ? self.overRateUpperTextField.text! : "0"
             var upper = Int(upperText)!
-            upper = max(lower, min(100, upper))
+            upper = max(lower, upper)
+            self._overRateUpper = upper
             self.overRateUpperTextField.text = String(format: "%d", upper)
         }
         else if textField === self.overRateUpperTextField {
             let upperText = !String.isEmptyOrNil(string: textField.text) ? textField.text! : "0"
             var upper = Int(upperText)!
-            upper = min(100, max(0, upper))
+            upper = max(0, upper)
+            self._overRateUpper = upper
             textField.text = String(format: "%d", upper)
             
             let lowerText = !String.isEmptyOrNil(string: self.overRateLowerTextField.text) ? self.overRateLowerTextField.text! : "0"
             var lower = Int(lowerText)!
             lower = min(upper, max(0, lower))
+            self._overRateLower = lower
             self.overRateLowerTextField.text = String(format: "%d", lower)
+        }
+        else if textField === self.vehicleIDTextField {
+            self._vehicleID = textField.text
+        }
+        else if textField === self.laneTextField {
+            self._lane = textField.text
         }
     }
     
@@ -119,7 +198,7 @@ class ConditionTableViewController: UITableViewController, UIPopoverPresentation
         let textField = sender as! UITextField
         textField.resignFirstResponder()
         
-        let allTextFields = [self.vehicleIDTextField!, self.overRateLowerTextField!, self.overRateUpperTextField!, self.laneTextField!]
+        let allTextFields = [self.overRateLowerTextField!, self.overRateUpperTextField!, self.vehicleIDTextField!, self.laneTextField!]
         let index = allTextFields.index {
             return $0 == textField
         }
@@ -265,17 +344,18 @@ class ConditionTableViewController: UITableViewController, UIPopoverPresentation
             case "popoverStationName":
                 let vc = segue.destination as! CommonPickerViewController
                 vc.context = identifier
-                vc.items = self._stationNames
+                vc.items = self._stations
                 vc.selectedIndex = vc.items?.index(where: {
-                    return $0 == self._station?.stationName
+                    return ($0 as! Station).stationID == self._station?.stationID
                 }) ?? 0
                 
             case "popoverProvince":
                 let vc = segue.destination as! CommonPickerViewController
                 vc.context = identifier
                 vc.items = self._provinces
-                vc.selectedIndex = vc.items?.index(of: self._province!)
-                
+                vc.selectedIndex = vc.items?.index(where: {
+                    return $0.description == self._province
+                }) ?? 0
             case "popoverStartTime":
                 let vc = segue.destination as! DatePickerViewController
                 vc.context = identifier
@@ -286,36 +366,6 @@ class ConditionTableViewController: UITableViewController, UIPopoverPresentation
                 vc.context = identifier
                 vc.date = self._endTime
                 
-            case "searchResult":
-                let vc = segue.destination as! SearchingResultViewController
-                // 站点编号
-                if self._sectionData[0].1 {
-                    vc.stationID = self._station?.stationID
-                }
-                // 车牌号
-                if self._sectionData[1].1 {
-                    vc.vehicleID = self._province! + (self._vehicleID ?? "")
-                }
-                // 超载状态
-                if self._sectionData[2].1 {
-                    vc.overloadStatus = self._overloadStatus
-                    if self._overloadStatus! == 0 { // 超载
-                        vc.overRateLower = self._overRateLower
-                        vc.overRateUpper = self._overRateUpper
-                    }
-                }
-                // 车道
-                if self._sectionData[3].1 {
-                    vc.lane = self._lane
-                }
-                // 检测时间不早于
-                if self._sectionData[4].1 {
-                    vc.startTime = self._startTime
-                }
-                // 检测时间最迟至
-                if self._sectionData[5].1 {
-                    vc.endTime = self._endTime
-                }
             default:
                 break
             }
@@ -336,7 +386,7 @@ class ConditionTableViewController: UITableViewController, UIPopoverPresentation
                 self.stationNameLabel.text = self._station?.stationName
                 
             case "popoverProvince":
-                self._province = vc.selectedItem
+                self._province = (vc.selectedItem) as? String
                 self.vehicleIDButton.setTitle(self._province, for: .normal)
             default:
                 break
@@ -375,5 +425,16 @@ class ConditionTableViewController: UITableViewController, UIPopoverPresentation
             }
         }
         return true
+    }
+    
+    // MARK: - UIScrollViewDelegate
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        let allTextFields = [self.vehicleIDTextField!, self.overRateLowerTextField!, self.overRateUpperTextField!, self.laneTextField!]
+        
+        for textField in allTextFields {
+            if textField.canResignFirstResponder {
+                textField.resignFirstResponder()
+            }
+        }
     }
 }

@@ -71,25 +71,18 @@ class AuthorizationService: NSObject {
     }
     
     private var _network: NetworkService!
-    var network: NetworkService {
-        get {
-            if self._network == nil {
-                self._network = NetworkService(baseURL: self.baseURL)
-            }
-            return self._network
-        }
-    }
     
     // MARK: - 方法
     //
     init(baseURL: URL) {
         self.baseURL = baseURL
+        self._network = NetworkService(baseURL: self.baseURL)
     }
     
     func authenticate(userID: String, pwd: String, completion: ((Bool, SysError?) -> Void)?) -> Void {
         
         let request = Request.login(userID, pwd, self.deviceToken)
-        _ = self.network.send(request: request) { [unowned self] (success: Bool, dictionary: [String: Any]?, error: SysError?) in
+        _ = self._network.send(request: request) { [unowned self] (success: Bool, dictionary: [String: Any]?, error: SysError?) in
             var success = success
             var error = error
             

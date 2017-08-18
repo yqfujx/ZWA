@@ -8,12 +8,13 @@
 
 import UIKit
 
+
 class CommonPickerViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
     var context: Any?
-    var items: [String]?
+    var items: [DescriptiveObject]?
     var selectedIndex: Int?
-    var selectedItem: String? {
+    var selectedItem: DescriptiveObject? {
         get {
             if let index = self.selectedIndex {
                 return self.items?[index]
@@ -62,7 +63,7 @@ class CommonPickerViewController: UIViewController, UIPickerViewDataSource, UIPi
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return self.items?[row]
+        return self.items?[row].description
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {

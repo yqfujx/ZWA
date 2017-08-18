@@ -9,6 +9,19 @@
 import UIKit
 
 class SearchingResultViewController: UITableViewController {
+    private let _statusColors =  [UIColor.init(0x000000),
+                                  UIColor.init(0x663333),
+                                  UIColor.init(0x993333),
+                                  UIColor.init(0xFF9999),
+                                  UIColor.init(0xFF6699),
+                                  UIColor.init(0xCC3333),
+                                  UIColor.init(0xCC0033),
+                                  UIColor.init(0xFF6666),
+                                  UIColor.init(0xFF3333),
+                                  UIColor.init(0xFF0033),
+                                  UIColor.init(0xFF0000),
+                                  UIColor.init(0xCC0000),
+                                  ]
     
     private var _isBusy = false
     private var _service: SearchingService!
@@ -54,25 +67,9 @@ class SearchingResultViewController: UITableViewController {
     }
 
     func statusString(with data: LiveData) -> NSAttributedString? {
-        var string = "正常"
-        var color = UIColor.black
-        
-        if data.overWeight > 0 {
-            string = "超重"
-            color = .red
-        }
-        else if data.overWidth > 0 {
-            string = "超宽"
-            color = .red
-        }
-        else if data.overLength > 0 {
-            string = "超长"
-            color = .red
-        }
-        else if data.overHeight > 0 {
-            string = "超高"
-            color = .red
-        }
+        let string = String(format: "超载率 %.f%%", data.overWeightRate)
+        let level = min(10, max(0, Int(data.overWeightRate) / 10))
+        let color = self._statusColors[level]
         
         return NSAttributedString(string: string, attributes: [NSForegroundColorAttributeName: color])
     }
@@ -94,16 +91,19 @@ class SearchingResultViewController: UITableViewController {
                                      overRateLower: self.overRateLower,
                                      overRateUpper: self.overRateUpper,
                                      lane: self.lane,
-                                     earliestTime: self.startTime, lastTime: self.endTime, completion: { [unowned self] (success: Bool, error: SysError?) in
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                     earliestTime: self.startTime, lastTime: self.endTime, completion: { [weak self] (success: Bool, error: SysError?) in
+                                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                        indicator.dismiss()
             
-            // 考虑到在分页请求过程中，有可能出现“部分成功”的现象，
-            // 因此对比请求前后结果集中记录数的变化，更为准确
-            if self._service.repository.count != count {
-                self.tableView.reloadData()
-            }
-            indicator.dismiss()
-            self._isBusy = false
+                                        // 考虑到在分页请求过程中，有可能出现“部分成功”的现象，
+                                        // 因此对比请求前后结果集中记录数的变化，更为准确
+                                        guard let _self = self else {
+                                            return
+                                        }
+                                        if _self._service.repository.count != count {
+                                            _self.tableView.reloadData()
+                                        }
+                                        _self._isBusy = false
         }) {
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             indicator.dismiss()
@@ -197,14 +197,21 @@ class SearchingResultViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "ResultToDetail" {
+            if let cell = sender as? UITableViewCell {
+                if let index = self.tableView.indexPath(for: cell) {
+                    let data = self._service.repository[index.row]
+                    let controller = segue.destination as! DetailViewController
+                    controller.data = data
+                }
+            }
+        }
     }
-    */
 
 }

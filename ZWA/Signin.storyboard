@@ -167,12 +167,20 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="B5g-il-dOM">
+                        <barButtonItem key="leftBarButtonItem" systemItem="compose" id="QxR-Y3-ACp">
+                            <connections>
+                                <action selector="configRouter:" destination="kzy-en-3ZL" id="C44-Pc-wl9"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="更新" id="Xq6-CS-6tt">
                             <connections>
-                                <action selector="updateServerList:" destination="kzy-en-3ZL" id="o6T-pa-hlD"/>
+                                <action selector="updateServerList:" destination="kzy-en-3ZL" id="Xya-ac-kFN"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="barItem" destination="Xq6-CS-6tt" id="g8I-uF-bsc"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="89o-Zp-y9l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

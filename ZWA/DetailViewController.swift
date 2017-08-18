@@ -11,6 +11,25 @@ import UIKit
 class DetailViewController: UITableViewController {
 
     var data: LiveData!
+    lazy var  imageService: PhotoService = {
+        return PhotoService()
+    }()
+    
+    func imageViewTapped(indexNumber: NSNumber) -> Void {
+        let index = indexNumber.intValue
+        let url = String(format: "%@/%@_%d.jpg", self.data.picUrl, self.data.RID, index + 1)
+        let record = self.imageService.record(forUrl: url)
+        
+        if record.state == .downloaded {
+            let controller = self.storyboard?.instantiateViewController(withIdentifier: "ImageViewController") as! ImageViewController
+            controller.modalPresentationStyle = .fullScreen
+            controller.modalTransitionStyle = .coverVertical
+            controller.image = record.image
+            controller.title = String(format: "照片 %d", index + 1)
+            
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +46,10 @@ class DetailViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.imageService.stop()
     }
 
     // MARK: - Table view data source
@@ -61,19 +84,19 @@ class DetailViewController: UITableViewController {
                 cell.detailTextLabel?.text = self.data.carLane
             case 4:
                 cell.textLabel?.text = "超重率:"
-                cell.detailTextLabel?.text = String(format: "%.f", self.data.overWeightRate)
+                cell.detailTextLabel?.text = String(format: "%.f%%", self.data.overWeightRate)
             case 5:
                 cell.textLabel?.text = "超重:"
-                cell.detailTextLabel?.text = String(format: "%f", self.data.overWeight)
+                cell.detailTextLabel?.text = String(format: "%.f", self.data.overWeight)
             case 6:
                 cell.textLabel?.text = "超长:"
-                cell.detailTextLabel?.text = String(format: "%f", self.data.overLength)
+                cell.detailTextLabel?.text = String(format: "%.f", self.data.overLength)
             case 7:
                 cell.textLabel?.text = "超宽:"
-                cell.detailTextLabel?.text = String(format: "%f", self.data.overWidth)
+                cell.detailTextLabel?.text = String(format: "%.f", self.data.overWidth)
             case 8:
                 cell.textLabel?.text = "超高:"
-                cell.detailTextLabel?.text = String(format: "%f", self.data.overHeight)
+                cell.detailTextLabel?.text = String(format: "%.f", self.data.overHeight)
             case 9:
                 cell.textLabel?.text = "检测时间:"
                 cell.detailTextLabel?.text = self.data.checkDatetime.string(with: "yyyy-MM-dd HH:mm:ss")
@@ -82,14 +105,38 @@ class DetailViewController: UITableViewController {
             }
         }
         else {
+            let cell = cell as! ImagesTableViewCell
+            cell.addTarget(target: self, selector: #selector(self.imageViewTapped(indexNumber:)))
             
+            let imageViews = [cell.imageView0, cell.imageView1, cell.imageView2]
+            let indicators = [cell.indicator0, cell.indicator1, cell.indicator2]
+            
+            for i in 0 ..< 3 {
+                let url = String(format: "%@/%@_%d.jpg", self.data.picUrl, self.data.RID, i + 1)
+                let record = self.imageService.record(forUrl: url)
+                imageViews[i]?.image = record.thumbnail
+                
+                switch record.state {
+                case .downloaded:
+                    indicators[i]?.stopAnimating()
+                case .failed:
+                    indicators[i]?.stopAnimating()
+                case .new:
+                    indicators[i]?.startAnimating()
+                    self.imageService.download(record: record, completion: { [weak tableView] (record) in
+                        tableView?.reloadRows(at: [indexPath], with: .fade)
+                    })
+//                default:
+//                    break
+                }
+            }
         }
 
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return indexPath.row == 10 ? 240 : 44
+        return indexPath.row == 10 ? 106 : 44
     }
 
     /*

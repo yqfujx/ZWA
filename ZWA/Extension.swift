@@ -93,6 +93,49 @@ extension Date {
     }
 }
 
+extension UIColor {
+    static var randomOpaque: UIColor {
+        get {
+            let r = CGFloat(arc4random_uniform(256)) / 255.0
+            let g = CGFloat(arc4random_uniform(256)) / 255.0
+            let b = CGFloat(arc4random_uniform(256)) / 255.0
+            
+            return UIColor(red: r, green: g, blue: b, alpha: 1.0)
+        }
+    }
+    
+    convenience init(red: Int, green: Int, blue: Int) {
+        assert(red >= 0 && red <= 255, "Invalid red component")
+        assert(green >= 0 && green <= 255, "Invalid green component")
+        assert(blue >= 0 && blue <= 255, "Invalid blue component")
+        
+        self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
+    }
+    
+    convenience init(_ rgb: Int) {
+        self.init(
+            red: (rgb >> 16) & 0xFF,
+            green: (rgb >> 8) & 0xFF,
+            blue: rgb & 0xFF
+        )
+    }
+    
+    func rectImage(size: CGSize) -> UIImage? {
+        UIGraphicsBeginImageContext(size)
+        let context = UIGraphicsGetCurrentContext()
+        let path = CGPath(rect: CGRect.init(x: 0, y: 0, width: size.width, height: size.height), transform: nil)
+        context?.addPath(path)
+        context?.setFillColor(self.cgColor)
+        context?.setLineWidth(1)
+        context?.setStrokeColor(UIColor(white: 0, alpha: 0.65).cgColor)
+        context!.drawPath(using: .fillStroke)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
+}
+
 extension UIButton {
     func setBackground(color: UIColor, forState state: UIControlState) -> Void {
         let rect = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)

@@ -68,8 +68,8 @@ class ServiceCenter: NSObject {
                     let password = rs.string(forColumn: "password")
                     let token = rs.string(forColumn: "token")
                     
-                    self._currentAccount = Account(serverUrl: serverUrl!, userID: userID, password: password!)
-                    self._currentAccount?.token = token
+                    ServiceCenter._currentAccount = Account(serverUrl: serverUrl!, userID: userID, password: password!)
+                    ServiceCenter._currentAccount?.token = token
                 }
             }
         })

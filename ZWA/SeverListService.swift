@@ -64,23 +64,22 @@ class ServerRepository {
 
 class SeverListService: NSObject {
     let repository = ServerRepository(db: ServiceCenter.publicDb!)
-    
-    private var network: NetworkService {
-        get {
-            return NetworkService(baseURL: URL(string: Configuration.routerUrl))
-        }
-    }
+    private let _network = NetworkService(baseURL: URL(string: Configuration.routerUrl!))
  
     func update(completion: ((Bool, SysError?) -> Void)?) -> Void {
         
         let request = Request.servers
-        _ = self.network.send(request: request) { (success: Bool, data: [String: Any]?, error: SysError?) in
+        _ = self._network.send(request: request) { [weak self] (success: Bool, data: [String: Any]?, error: SysError?) in
+            guard let _self = self else {
+                return
+            }
+            
             var success = success
             var error = error
             
             if success {
                 if let items = data!["Table"] as? [[String: Any]] {
-                    self.repository.update(dictArray: items)
+                    _self.repository.update(dictArray: items)
                 }
                 else {
                     success = false

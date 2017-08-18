@@ -29,6 +29,16 @@ class TableViewHeaderView: UIView {
         super.init(frame: frame)
         self.backgroundColor = UIColor.groupTableViewBackground
         
+//        let lightLine = UIView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: 1))
+//        lightLine.backgroundColor = UIColor(white: 0.9, alpha: 1)
+//        lightLine.autoresizingMask = [.flexibleBottomMargin, .flexibleWidth]
+//        self.addSubview(lightLine)
+        
+        let darkLine = UIView(frame: CGRect(x: 0, y: frame.size.height - 0.5, width: frame.size.width, height: 0.5))
+        darkLine.backgroundColor = UIColor(white: 0.85, alpha: 1.0)
+        darkLine.autoresizingMask = [.flexibleTopMargin, .flexibleWidth]
+        self.addSubview(darkLine)
+        
         self.textLabel = UILabel(frame: CGRect(x: 15, y: 5, width: 33, height: 21))
         self.switcher = BlockSwitch(frame: CGRect(x: 303, y: 1, width: 51, height: 31))
         self.addSubview(self.textLabel)

@@ -11,7 +11,7 @@ import UIKit
 class ConditionViewController: UIViewController {
 
     @IBOutlet weak var button: UIButton!
-    @IBOutlet weak var tableViewController: UITableViewController!
+    @IBOutlet weak var tableViewController: ConditionTableViewController!
     
     @IBAction func cancelTapped(_ sender: Any?) {
         self.dismiss(animated: true, completion: nil)
@@ -80,10 +80,46 @@ class ConditionViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
-        if segue.identifier == "embed" {
-            if let vc = segue.destination as? ConditionTableViewController {
-                self.tableViewController = vc
-            }
+        if let identifier = segue.identifier {
+
+            switch identifier {
+            case "embed":
+                if let vc = segue.destination as? ConditionTableViewController {
+                    self.tableViewController = vc
+                }
+            case "searchResult" where(self.tableViewController != nil):
+                let vc = segue.destination as! SearchingResultViewController
+                // 站点编号
+                if self.tableViewController.sectionData[0].1 {
+                    vc.stationID = self.tableViewController.station?.stationID
+                }
+                // 检测时间不早于
+                if self.tableViewController.sectionData[1].1 {
+                    vc.startTime = self.tableViewController.startTime
+                }
+                // 检测时间最迟至
+                if self.tableViewController.sectionData[2].1 {
+                    vc.endTime = self.tableViewController.endTime
+                }
+                // 超载状态
+                if self.tableViewController.sectionData[3].1 {
+                    vc.overloadStatus = self.tableViewController.overloadStatus
+                    if self.tableViewController.overloadStatus! == 0 { // 超载
+                        vc.overRateLower = self.tableViewController.overRateLower
+                        vc.overRateUpper = self.tableViewController.overRateUpper
+                    }
+                }
+                // 车牌号
+                if self.tableViewController.sectionData[4].1 {
+                    vc.vehicleID = self.tableViewController.province! + (self.tableViewController.vehicleID ?? "")
+                }
+                // 车道
+                if self.tableViewController.sectionData[5].1 {
+                    vc.lane = self.tableViewController.lane
+                }
+            default:
+                break
+            } // end switch
         }
     }
 

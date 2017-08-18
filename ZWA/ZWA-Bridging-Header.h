@@ -5,3 +5,4 @@
 #import "AFNetworking/AFNetworking.h"
 #import "PNChart/PNChart.h"
 #import "FMDB.h"
+#import "UIImage+Thumb.h"

@@ -9,7 +9,25 @@
 import UIKit
 
 class Configuration: NSObject {
-    static let routerUrl = "http://192.134.2.166/webservice/Service1.asmx"
+    static var routerHost: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "routerHost")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "routerHost")
+        }
+    }
+    
+    static var  routerUrl: String? {
+        get {
+            if self.routerHost != nil {
+                return "http://" + self.routerHost! + "/Service1.asmx"
+            }
+            else {
+                return nil
+            }
+        }
+    } //= "http://192.134.2.166/webservice/Service1.asmx"
 
     static var userID: String? {
         get {
