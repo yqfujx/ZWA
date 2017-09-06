@@ -27,12 +27,13 @@ fileprivate var photoDirectory: String {
 class PhotoRecord {
     let url: String
     var state = PhotoRecordState.new
-    var thumbnail = UIImage(named: "image_placeholder.png")
+    var thumbnail: UIImage?
     var image: UIImage?
     var fileName: String?
     
     init(url: String) {
         self.url = url
+        self.thumbnail = UIImage(named: "image_placeholder.png")
     }
 }
 

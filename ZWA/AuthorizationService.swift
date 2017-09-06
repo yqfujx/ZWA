@@ -79,10 +79,19 @@ class AuthorizationService: NSObject {
         self._network = NetworkService(baseURL: self.baseURL)
     }
     
+    deinit {
+        self._network.close()
+        self._network = nil
+    }
+    
     func authenticate(userID: String, pwd: String, completion: ((Bool, SysError?) -> Void)?) -> Void {
         
         let request = Request.login(userID, pwd, self.deviceToken)
-        _ = self._network.send(request: request) { [unowned self] (success: Bool, dictionary: [String: Any]?, error: SysError?) in
+        _ = self._network.send(request: request) { [weak self] (success: Bool, dictionary: [String: Any]?, error: SysError?) in
+            guard let _self = self else {
+                return
+            }
+            
             var success = success
             var error = error
             
@@ -92,7 +101,7 @@ class AuthorizationService: NSObject {
                     if let result = Bool.init(string) {
                         // 登录成功
                         if result {
-                            var account = Account(serverUrl: self.baseURL.absoluteString, userID: userID, password: pwd)
+                            var account = Account(serverUrl: _self.baseURL.absoluteString, userID: userID, password: pwd)
                             let token = dictionary!["token"] as? String
                             account.token = token
                             
@@ -106,10 +115,10 @@ class AuthorizationService: NSObject {
                             account.stations = stations
                             
                             // 创建或更新用户数据库
-                            self.register(account: account)
+                            _self.register(account: account)
                             // 设为当前账户
-                            self.userID = account.userID
-                            self.authenticated = true
+                            _self.userID = account.userID
+                            _self.authenticated = true
                             ServiceCenter.currentAccount = account
                         }
                         else {  // 登录不成功

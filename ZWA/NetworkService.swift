@@ -34,7 +34,7 @@ class NetworkService: AFHTTPSessionManager {
      */
     func send(request: Request, completionQueue: OperationQueue?, completion: ((Bool, [String: Any]?, SysError?) ->Void)?) -> Bool {
         
-        let success = {(task: URLSessionDataTask, data: Any?) in
+        let success = { [weak completionQueue] (task: URLSessionDataTask, data: Any?) in
             if let parser = data as? XMLParser {
                 // 1. 解析 XML，提取出内嵌的JSON 格式的字符串
                 //
@@ -82,18 +82,22 @@ class NetworkService: AFHTTPSessionManager {
         let (method, path, params) = request.api
         let url = URL(string: path, relativeTo: self.baseURL)?.absoluteString
         
-        let work = DispatchWorkItem(qos: .userInitiated, flags: .inheritQoS) { [unowned self] () in
+        let work = DispatchWorkItem(qos: .userInitiated, flags: .inheritQoS) { [weak self] () in
+            guard let _self = self else {
+                return
+            }
+            
             switch method {
             case .GET:
-                _ = self.get(url!, parameters: params, progress: nil, success: success, failure: failure)
+                _ = _self.get(url!, parameters: params, progress: nil, success: success, failure: failure)
             case .POST:
-                _ = self.post(url!, parameters: params, progress: nil, success: success, failure: failure)
+                _ = _self.post(url!, parameters: params, progress: nil, success: success, failure: failure)
             case .PUT:
-                _ = self.put(url!, parameters: params, success: success, failure: failure)
+                _ = _self.put(url!, parameters: params, success: success, failure: failure)
             case .PATCH:
-                _ = self.patch(url!, parameters: params, success: success, failure: failure)
+                _ = _self.patch(url!, parameters: params, success: success, failure: failure)
             case .DELETE:
-                _ = self.delete(url!, parameters: params, success: success, failure: failure)
+                _ = _self.delete(url!, parameters: params, success: success, failure: failure)
             }
         }
         self.sendDispatchQueue.async(execute: work)
@@ -109,5 +113,7 @@ class NetworkService: AFHTTPSessionManager {
         for task in self.tasks {
             task.cancel()
         }
+        
+        self.session.invalidateAndCancel()
     }
 }

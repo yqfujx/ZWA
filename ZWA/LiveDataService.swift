@@ -159,9 +159,15 @@ class LiveDataRepository {
 
 fileprivate class LiveSyncOperation: Operation {
     weak var repository: LiveDataRepository?
-    weak var completionQueue: OperationQueue?
+    var completionQueue: OperationQueue!
     var success = false
     var error: SysError?
+    
+    override init() {
+        self.completionQueue = OperationQueue()
+        self.completionQueue.maxConcurrentOperationCount = 1
+        self.completionQueue.qualityOfService = .userInitiated
+    }
     
     override func main() {
         guard let last  = self.repository?.last else {
@@ -228,19 +234,31 @@ fileprivate class LiveSyncOperation: Operation {
 class LiveDataService: NSObject {
     let rowsPerPage = 40
     let repository = LiveDataRepository(db: ServiceCenter.privateDb!)
-    let sendQueue = { () ->OperationQueue in
-        let queue = OperationQueue()
-        queue.maxConcurrentOperationCount = 1
-        queue.qualityOfService = .userInitiated
-        return queue
-    }()
+//    let sendQueue = { () ->OperationQueue in
+//        let queue = OperationQueue()
+//        queue.maxConcurrentOperationCount = 1
+//        queue.qualityOfService = .userInitiated
+//        return queue
+//    }()
+    var sendQueue: OperationQueue!
     
-    let completionQueue = { () ->OperationQueue in
-        let queue = OperationQueue()
-        queue.maxConcurrentOperationCount = 1
-        queue.qualityOfService = .userInitiated
-        return queue
-    }()
+//    let completionQueue = { () ->OperationQueue in
+//        let queue = OperationQueue()
+//        queue.maxConcurrentOperationCount = 1
+//        queue.qualityOfService = .userInitiated
+//        return queue
+//    }()
+    var completionQueue: OperationQueue!
+    
+    override init() {
+        self.sendQueue = OperationQueue.init()
+        self.sendQueue.maxConcurrentOperationCount = 1
+        self.sendQueue.qualityOfService = .userInitiated
+        
+        self.completionQueue = OperationQueue.init()
+        self.completionQueue.maxConcurrentOperationCount = 1
+        self.completionQueue.qualityOfService = .userInitiated
+    }
     
     deinit {
         self.stop()
@@ -289,7 +307,6 @@ class LiveDataService: NSObject {
         else {
             let op = LiveSyncOperation()
             op.repository = self.repository
-            op.completionQueue = self.completionQueue
             op.completionBlock = { [weak op] () in
                 guard let op = op else {
                     return
@@ -313,7 +330,7 @@ class LiveDataService: NSObject {
     
     func stop() -> Void {
         self.sendQueue.cancelAllOperations()
-        self.completionQueue.cancelAllOperations()
+        self.completionQueue?.cancelAllOperations()
     }
 
 }

@@ -23,7 +23,6 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var signinButton: UIButton!
     @IBOutlet weak var messageLabel: UILabel!
-    var activityIndicator: MyActivityIndicatorView?
     
     
     // MARK: - 功能函数
@@ -68,15 +67,15 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
             self.passwordTextField.resignFirstResponder()
         }
         
-        self.activityIndicator = MyActivityIndicatorView()
-        self.activityIndicator?.show()
+        let activityIndicator = MyActivityIndicatorView()
+        activityIndicator.show()
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         let completion = {[weak self] (success: Bool, error: SysError?) -> Void in
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            self?.activityIndicator?.dismiss()
+            activityIndicator.dismiss()
             
-            guard self != nil else {
+            guard let _self = self else {
                 return
             }
             
@@ -85,7 +84,7 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     let vc = storyboard.instantiateInitialViewController()
                     
-                    let segue = UIStoryboardSegue(identifier: nil, source: self!, destination: vc!, performHandler: {
+                    let segue = UIStoryboardSegue(identifier: nil, source: _self, destination: vc!, performHandler: {
                         vc!.modalTransitionStyle = .crossDissolve
                         let delegate = UIApplication.shared.delegate as! AppDelegate
                         
@@ -99,11 +98,10 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
                 }
             }
             else {
-                self?.messageLabel.text = error?.localizedDescription
+                _self.messageLabel.text = error?.localizedDescription
             }
             
-            self?._service = nil
-            
+            _self._service = nil
         } // end of closure
 
         self._service = AuthorizationService(baseURL: URL(string: self.server!.url)!)

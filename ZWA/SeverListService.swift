@@ -66,6 +66,10 @@ class SeverListService: NSObject {
     let repository = ServerRepository(db: ServiceCenter.publicDb!)
     private let _network = NetworkService(baseURL: URL(string: Configuration.routerUrl!))
  
+    deinit {
+        self._network.close()
+    }
+    
     func update(completion: ((Bool, SysError?) -> Void)?) -> Void {
         
         let request = Request.servers

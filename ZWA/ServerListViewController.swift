@@ -15,7 +15,7 @@ class ServerListViewController: UITableViewController {
     private weak var _positiveAction: UIAlertAction?
     
     // MARK: - 属性
-    var service: SeverListService?
+    private var service: SeverListService?
     /*
     // MARK: - 方法
     */
@@ -60,12 +60,13 @@ class ServerListViewController: UITableViewController {
         indicator.show()
         
         let completion = { [weak self] (success: Bool, error: SysError?) -> Void in
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            
             guard let _self = self else {
                 return
             }
             
             _self.barItem.isEnabled = true
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             indicator.dismiss()
             _self.tableView.reloadData()
         }
@@ -79,6 +80,11 @@ class ServerListViewController: UITableViewController {
     }
 
     // MARK: - 重载
+    deinit {
+        self.service = nil
+        self._positiveAction = nil
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "选择服务器"

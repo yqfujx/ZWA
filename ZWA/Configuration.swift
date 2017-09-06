@@ -11,7 +11,12 @@ import UIKit
 class Configuration: NSObject {
     static var routerHost: String? {
         get {
-            return UserDefaults.standard.string(forKey: "routerHost")
+            if let value = UserDefaults.standard.string(forKey: "routerHost") {
+                return value
+            }
+            else {
+                return "171.34.206.39:8082/webservice"
+            }
         }
         set {
             UserDefaults.standard.set(newValue, forKey: "routerHost")
